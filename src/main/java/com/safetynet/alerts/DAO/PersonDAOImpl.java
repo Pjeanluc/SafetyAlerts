@@ -9,45 +9,73 @@ import com.safetynet.alerts.model.Person;
 
 @Repository
 public class PersonDAOImpl implements PersonDAO {
-    
-    private List<Person> persons =new ArrayList<>();
-   
+
+    private List<Person> persons = new ArrayList<>();
 
     @Override
     public List<Person> getAllPersons() {
-        
+
         return persons;
     }
 
     @Override
-    public void personSave(Person person) {
-        // TODO Auto-generated method stub
-        
+    public Person personAdd(Person person) {
+        persons.add(person);
+        return person;
+
     }
 
     @Override
-    public void personUpdate(Person person) {
-        // TODO Auto-generated method stub
-        
+    public String personUpdate(Person person) {
+        int index = 0;
+        Boolean findedPerson = false;
+
+        for (Person p : persons) {
+            if (p.getFirstName().contentEquals(person.getFirstName())
+                    && p.getLastName().contentEquals(person.getLastName())) {
+                persons.set(index, person);
+                findedPerson = true;
+            }
+            index++;
+        }
+
+        if (findedPerson) {
+            return "Modified person : " + person.getFirstName() + " " + person.getLastName();
+        } else {
+            return "Modified person : " + person.getFirstName() + " " + person.getLastName() + " : KO";
+        }
     }
 
     @Override
-    public void personDelete(String firstName, String lastname) {
-        // TODO Auto-generated method stub
-        
+    public Boolean personDelete(String firstName, String lastName) {
+
+        Boolean findedPerson = false;
+
+        for (Person p : persons) {
+            if (p.getFirstName().contentEquals(firstName) && p.getLastName().contentEquals(lastName)) {
+                findedPerson = true;
+            }
+        }
+
+        if (findedPerson) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 
     @Override
     public Person personFindByFirstNameAndLastName(String firstName, String lastName) {
-                        
-        for (Person person:persons) {
-                      
-            if ((person.getFirstName().equals(firstName)) && (person.getLastName().equals(lastName)) ){
-                  
+
+        for (Person person : persons) {
+
+            if ((person.getFirstName().equals(firstName)) && (person.getLastName().equals(lastName))) {
+
                 return person;
-            }            
+            }
         }
-               
+
         return null;
     }
 
@@ -60,7 +88,7 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public void setAllPersons(List<Person> listPerson) {
         this.persons = listPerson;
-        
+
     }
 
 }

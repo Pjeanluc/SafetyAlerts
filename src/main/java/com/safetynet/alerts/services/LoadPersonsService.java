@@ -37,9 +37,7 @@ public class LoadPersonsService {
     List<MedicalRecord> listmedicalRecord = new ArrayList<MedicalRecord>();
 
     @PostConstruct
-    public void LoadPersons() throws IOException {
-               
-       // ObjectsSafetyAlert objects = JsonIterator.deserialize(fileName,ObjectsSafetyAlert.class);
+    public void loadPersons() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -51,7 +49,7 @@ public class LoadPersonsService {
             listmedicalRecord = object.getMedicalrecords();
 
             personDao.setAllPersons(listPerson);
-            
+
             logger.info("Loaded Json objects");
 
         } catch (JsonMappingException e) {
@@ -64,7 +62,7 @@ public class LoadPersonsService {
             e.printStackTrace();
             logger.error("Error inupt/output JSON", e);
         }
-        
+
     }
 
 }

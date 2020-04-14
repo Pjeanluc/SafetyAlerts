@@ -27,10 +27,15 @@ public class MedicalRecord {
         this.lastName = lastName;
     }
     public Date getBirthdate() {
-        return birthdate;
+        Date localDate = birthdate;
+        return localDate;
     }
     public void setBirthdate(Date birthdate) {
-        this.birthdate = birthdate;
+        if (birthdate == null) {
+            this.birthdate = null;
+        } else {
+            this.birthdate = new Date(birthdate.getTime());
+        }
     }
     public List<String> getMedications() {
         return medications;
