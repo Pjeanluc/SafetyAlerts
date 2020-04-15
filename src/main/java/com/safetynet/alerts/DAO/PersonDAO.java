@@ -7,12 +7,10 @@ import com.safetynet.alerts.model.Person;
 public interface PersonDAO {
       
     public List<Person> getAllPersons();
-    public Person personAdd(Person person);
-    public String personUpdate(Person person);
-    public Boolean personDelete(String firstName, String lastname);
-    
-    public Person personFindByFirstNameAndLastName(String firstName, String lastname);
-    public List<Person> findByAddress(String adress);
+    public Person addPerson(Person person);
+    public Person updatePerson(Person person);
+    public Boolean deletePerson(String firstName, String lastname);    
+    public Person findPersonByFirstNameAndLastName(String firstName, String lastname);   
     public void setAllPersons(List<Person> listPerson);  
     
 

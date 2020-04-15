@@ -19,54 +19,44 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Person personAdd(Person person) {
+    public Person addPerson(Person person) {
         persons.add(person);
         return person;
 
     }
 
     @Override
-    public String personUpdate(Person person) {
+    public Person updatePerson(Person person) {
         int index = 0;
-        Boolean findedPerson = false;
 
         for (Person p : persons) {
             if (p.getFirstName().contentEquals(person.getFirstName())
                     && p.getLastName().contentEquals(person.getLastName())) {
                 persons.set(index, person);
-                findedPerson = true;
+                return p;
             }
             index++;
         }
 
-        if (findedPerson) {
-            return "Modified person : " + person.getFirstName() + " " + person.getLastName();
-        } else {
-            return "Modified person : " + person.getFirstName() + " " + person.getLastName() + " : KO";
-        }
+        return null;
     }
 
     @Override
-    public Boolean personDelete(String firstName, String lastName) {
-
-        Boolean findedPerson = false;
+    public Boolean deletePerson(String firstName, String lastName) {
 
         for (Person p : persons) {
             if (p.getFirstName().contentEquals(firstName) && p.getLastName().contentEquals(lastName)) {
-                findedPerson = true;
+                persons.remove(p);
+                return true;
             }
         }
 
-        if (findedPerson) {
-            return true;
-        } else {
-            return false;
-        }
+        return false;
 
     }
 
     @Override
-    public Person personFindByFirstNameAndLastName(String firstName, String lastName) {
+    public Person findPersonByFirstNameAndLastName(String firstName, String lastName) {
 
         for (Person person : persons) {
 
@@ -79,13 +69,7 @@ public class PersonDAOImpl implements PersonDAO {
         return null;
     }
 
-    @Override
-    public List<Person> findByAddress(String adress) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
+       @Override
     public void setAllPersons(List<Person> listPerson) {
         this.persons = listPerson;
 

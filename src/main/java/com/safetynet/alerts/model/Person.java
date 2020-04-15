@@ -1,13 +1,20 @@
 package com.safetynet.alerts.model;
 
+import javax.validation.constraints.Email;
+
+import org.hibernate.validator.constraints.Length;
+
 public class Person {
    
+    @Length(min=1)
     private String firstName;
+    @Length(min=1)
     private String lastName;
     private String address;
     private String city;
     private String zip;
     private String phone;
+    @Email
     private String email;
     
     

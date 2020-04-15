@@ -15,7 +15,8 @@ import org.springframework.stereotype.Service;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-
+import com.safetynet.alerts.DAO.FireStationDAO;
+import com.safetynet.alerts.DAO.MedicalRecordsDAO;
 import com.safetynet.alerts.DAO.PersonDAO;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -23,7 +24,7 @@ import com.safetynet.alerts.model.ObjectsSafetyAlert;
 import com.safetynet.alerts.model.Person;
 
 @Service
-public class LoadPersonsService {
+public class LoadObjectsService {
     private static final Logger logger = LogManager.getLogger("LoadPersonsService");
 
     @Value("${filename}")
@@ -31,9 +32,15 @@ public class LoadPersonsService {
 
     @Autowired
     PersonDAO personDao;
+    
+    @Autowired
+    FireStationDAO fireStationDao;
+    
+    @Autowired
+    MedicalRecordsDAO medicalRecordsDao;
 
     List<Person> listPerson = new ArrayList<Person>();
-    List<FireStation> listfireStation = new ArrayList<FireStation>();
+    List<FireStation> listFireStation = new ArrayList<FireStation>();
     List<MedicalRecord> listmedicalRecord = new ArrayList<MedicalRecord>();
 
     @PostConstruct
@@ -45,10 +52,12 @@ public class LoadPersonsService {
             ObjectsSafetyAlert object = mapper.readValue(new File(fileName), ObjectsSafetyAlert.class);
 
             listPerson = object.getPersons();
-            listfireStation = object.getFirestations();
+            listFireStation = object.getFirestations();
             listmedicalRecord = object.getMedicalrecords();
 
             personDao.setAllPersons(listPerson);
+            fireStationDao.setAllFireStations(listFireStation);
+            medicalRecordsDao.setAllMedicalRecords(listmedicalRecord);
 
             logger.info("Loaded Json objects");
 
