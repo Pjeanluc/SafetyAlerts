@@ -13,16 +13,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
-import com.safetynet.alerts.DAO.FireStationDAO;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.services.FireStationService;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class fireStationControllerTest {
+public class FireStationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -36,7 +39,7 @@ public class fireStationControllerTest {
     @Test
     public void GiveAllFireStationTest() throws Exception {
 
-        // WHEN //THEN return the station
+        // WHEN //THEN 
 
         this.mockMvc.perform(get("/firestation/all")).andExpect(status().isOk());
     }
@@ -49,13 +52,13 @@ public class fireStationControllerTest {
 
         String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
 
-        // WHEN //THEN return the station added
+        // WHEN //THEN 
         this.mockMvc.perform(post("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
     }
 
     @Test
-    public void PutFireStationTestWitheFireStationExisting() throws Exception {
+    public void PutFireStationWitheFireStationExistingTest() throws Exception {
 
         // GIVEN
         fireStationMock = new FireStation();
@@ -66,7 +69,7 @@ public class fireStationControllerTest {
 
         String payload = "{\"address\":\"20 rue de Paris\",\"station\":\"3\"}";
 
-        // WHEN //THEN return the station added
+        // WHEN //THEN
         this.mockMvc
                 .perform(put("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -76,16 +79,54 @@ public class fireStationControllerTest {
                 .andExpect(jsonPath("$.address").value("20 rue de Paris"));
     }
     @Test
-    public void PutFireStationTestWitheFireStationDotNotExist() throws Exception {
+    public void PutFireStationWitheFireStationDotNotExistTest() throws Exception {
 
         // GIVEN
         Mockito.when(fireStationService.update(any(FireStation.class))).thenReturn(null);
 
         String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
 
-        // WHEN //THEN return the station added
+        // WHEN //THEN 
         this.mockMvc
                 .perform(put("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
+    
+    @Test
+    public void deleteFireStationWitheFireStationExistTest() throws Exception {
+
+        // GIVEN
+        List<FireStation> listFireStationMock = new ArrayList<>();
+        fireStationMock = new FireStation();
+        fireStationMock.setAddress("20 rue de Paris");
+        fireStationMock.setStation("3");
+        listFireStationMock.add(fireStationMock);
+        Mockito.when(fireStationService.delete(any(FireStation.class))).thenReturn(listFireStationMock);
+
+        String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
+
+        // WHEN //THEN 
+        this.mockMvc
+                .perform(delete("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$..station").value("3"))
+                .andExpect(jsonPath("$..address").value("20 rue de Paris"));
+    }
+    
+    @Test
+    public void deleteFireStationWitheFireStationDotNotExistTest() throws Exception {
+
+        // GIVEN
+        List<FireStation> listFireStationMock = new ArrayList<>();
+        Mockito.when(fireStationService.delete(any(FireStation.class))).thenReturn(listFireStationMock);
+
+        String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
+
+        // WHEN //THEN 
+        this.mockMvc
+                .perform(delete("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
