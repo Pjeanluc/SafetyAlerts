@@ -2,8 +2,9 @@ package com.safetynet.alerts.model;
 
 public class FireStation {
     private String address;
-    private String station;
-    
+    private String station;    
+   
+   
     public String getAddress() {
         return address;
     }
@@ -15,6 +16,10 @@ public class FireStation {
     }
     public void setStation(String station) {
         this.station = station;
+    }
+    @Override
+    public String toString() {
+        return "FireStation [address=" + address + ", station=" + station + "]";
     }
     
 

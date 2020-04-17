@@ -44,7 +44,7 @@ public class LoadObjectsService {
     List<MedicalRecord> listmedicalRecord = new ArrayList<MedicalRecord>();
 
     @PostConstruct
-    public void loadPersons() throws IOException {
+    public void loadAlertObjects() throws IOException {
 
         ObjectMapper mapper = new ObjectMapper();
 

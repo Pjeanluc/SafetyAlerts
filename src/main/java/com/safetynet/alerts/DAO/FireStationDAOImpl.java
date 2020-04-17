@@ -18,9 +18,9 @@ public class FireStationDAOImpl implements FireStationDAO {
     }
 
     @Override
-    public String addFireStation(FireStation fireStation) {
+    public FireStation addFireStation(FireStation fireStation) {
         fireStations.add(fireStation);
-        return "firestation added : " + fireStation;
+        return fireStation;
     }
 
     @Override
@@ -40,32 +40,32 @@ public class FireStationDAOImpl implements FireStationDAO {
     }
 
     @Override
-    public List<FireStation> deleteFireStation(String station, String address) {
+    public List<FireStation> deleteFireStation(FireStation fireStation) {
 
         List<FireStation> fireStationsDeleted = new ArrayList<>();
 
         // delete with address only
-        if (station.isEmpty()) {
+        if (fireStation.getStation().isEmpty()) {
             for (FireStation f : fireStations) {
-                if (f.getAddress().contentEquals(address)) {
+                if (f.getAddress().contentEquals(fireStation.getAddress())) {
                     fireStationsDeleted.add(f);
                 }
             }
         }
 
         // delete with station only
-        if (address.isEmpty()) {
+        if (fireStation.getAddress().isEmpty()) {
             for (FireStation f : fireStations) {
-                if (f.getStation().contentEquals(station)) {
+                if (f.getStation().contentEquals(fireStation.getStation())) {
                     fireStationsDeleted.add(f);
                 }
             }
         }
 
         // delete with station and address
-        if (!address.isEmpty() && !station.isEmpty()) {
+        if (!fireStation.getAddress().isEmpty() && !fireStation.getStation().isEmpty()) {
             for (FireStation f : fireStations) {
-                if ((f.getStation().contentEquals(station)) && (f.getAddress().contentEquals(address))) {
+                if ((f.getStation().contentEquals(fireStation.getStation())) && (f.getAddress().contentEquals(fireStation.getAddress()))) {
                     fireStationsDeleted.add(f);
                 }
             }

@@ -49,7 +49,5 @@ public class MedicalRecord {
     public void setAllergies(List<String> allergies) {
         this.allergies = allergies;
     }
-    
-
-    
+        
 }

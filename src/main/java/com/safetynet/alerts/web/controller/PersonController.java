@@ -16,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.DAO.PersonDAO;
 import com.safetynet.alerts.model.Person;
+import com.safetynet.alerts.services.PersonService;
 import com.safetynet.alerts.web.exceptions.*;
 
 @RestController
@@ -26,12 +26,12 @@ public class PersonController {
     private static final Logger logger = LogManager.getLogger("PersonController");
 
     @Autowired
-    private PersonDAO personDAO;
+    private PersonService personService;
 
     @PostMapping
     public Person addPerson(@Valid @RequestBody Person person) {
 
-        Person personAdded = personDAO.addPerson(person);
+        Person personAdded = personService.save(person);
 
         if (personAdded == null)
             throw new PersonAddedException("Add " + person.toString() + " : ERROR");
@@ -43,7 +43,7 @@ public class PersonController {
     @PutMapping
     public Person modifyPerson(@RequestBody Person person) {
 
-        Person personModified = personDAO.updatePerson(person);
+        Person personModified = personService.update(person);
 
         if (personModified == null)
             throw new PersonNotFound(person.toString());
@@ -56,7 +56,7 @@ public class PersonController {
         if (firstName.isEmpty() || lastName.isEmpty())
             throw new PersonBadParameter("Firstname and lastname are required");
 
-        if (personDAO.deletePerson(firstName, lastName)) {
+        if (personService.delete(firstName, lastName)) {
             logger.info("Remove person succeeded");
             return "Deleted person : " + firstName + " " + lastName;
         } else
@@ -67,10 +67,10 @@ public class PersonController {
     @GetMapping
     public Person getPerson(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName) {
         logger.info("Get person");
-        Person person = personDAO.findPersonByFirstNameAndLastName(firstName, lastName);
+        Person person = personService.findPerson(firstName, lastName);
 
         if (person == null)
-            throw new PersonNotFound("Person introuvable :" + firstName + " " + lastName);
+            throw new PersonNotFound(firstName + " " + lastName);
 
         return person;
     }
@@ -78,7 +78,7 @@ public class PersonController {
     @GetMapping(value = "/all")
     public List<Person> listePersons() {
         logger.info("Get list person");
-        return personDAO.getAllPersons();
+        return personService.findAll();
     }
 
 }

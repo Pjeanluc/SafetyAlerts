@@ -33,7 +33,7 @@ public class PersonDAOImpl implements PersonDAO {
             if (p.getFirstName().contentEquals(person.getFirstName())
                     && p.getLastName().contentEquals(person.getLastName())) {
                 persons.set(index, person);
-                return p;
+                return person;
             }
             index++;
         }

@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 public class MedicalRecordNotFound extends RuntimeException {
 
     public MedicalRecordNotFound(String s) {
-        super("Medical record" + s);
+        super("Medical record " + s);
     }
 
 }

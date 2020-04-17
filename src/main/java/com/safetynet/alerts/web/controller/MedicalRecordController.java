@@ -14,9 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.DAO.MedicalRecordsDAO;
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.services.MedicalRecordService;
 import com.safetynet.alerts.web.exceptions.MedicalRecordNotFound;
+import com.safetynet.alerts.web.exceptions.MedicalRecordPersonNotFound;
 
 @RestController
 @RequestMapping("/medicalrecord")
@@ -24,45 +25,63 @@ public class MedicalRecordController {
     private static final Logger logger = LogManager.getLogger("PersonController");
 
     @Autowired
-    private MedicalRecordsDAO medicalRecordDAO;
-    
-    @PostMapping
-    public String addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-        logger.info("Add medicalrecord : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+    private MedicalRecordService medicalRecordService;
 
-        return medicalRecordDAO.addMedicalRecords(medicalRecord);
+    @PostMapping
+    public MedicalRecord addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+        
+        MedicalRecord medicalRecordAdded = medicalRecordService.save(medicalRecord);
+        if (medicalRecordAdded == null)
+            throw new MedicalRecordPersonNotFound(medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+
+        logger.info("created medicalrecord : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+        return medicalRecordAdded;
 
     }
 
     @PutMapping
-    public  MedicalRecord modifyMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-        
-        MedicalRecord medicalRecordModified = medicalRecordDAO.updateMedicalRecords(medicalRecord);
-        
+    public MedicalRecord modifyMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+
+        MedicalRecord medicalRecordModified = medicalRecordService.update(medicalRecord);
+
         if (medicalRecordModified == null)
             throw new MedicalRecordNotFound(medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
-        
+
         logger.info("modified medicalrecord : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
         return medicalRecordModified;
-        
+
     }
 
     @DeleteMapping
-    public String removeMedicalRecord(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName) {
+    public String removeMedicalRecord(@RequestParam("firstname") String firstName,
+            @RequestParam("lastname") String lastName) {
 
         String medicalRecordName = firstName + " " + lastName;
-        
-        if (medicalRecordDAO.deleteMedicalRecords(firstName, lastName)) {
-            logger.info("Delteted medicalrecord : "+ medicalRecordName);
-            return "Delteted medicalrecord : "+ medicalRecordName;
-        } else throw new MedicalRecordNotFound(medicalRecordName);
+
+        if (medicalRecordService.delete(firstName, lastName)) {
+            logger.info("Deleteted medicalrecord : " + medicalRecordName);
+            return "Deleteted medicalrecord : " + medicalRecordName;
+        } else
+            throw new MedicalRecordNotFound(medicalRecordName);
+
+    }
+
+    @GetMapping
+    public MedicalRecord getMedicalRecord(@RequestParam("firstname") String firstName,
+            @RequestParam("lastname") String lastName) {
+
+        if (medicalRecordService.findMedicalRecord(firstName, lastName) != null) {
+            logger.info("Get record");
+            return medicalRecordService.findMedicalRecord(firstName, lastName);
+        } else
+            throw new MedicalRecordNotFound(firstName + " " + lastName);
 
     }
 
     @GetMapping(value = "/all")
     public List<MedicalRecord> listeMedicalRecord() {
         logger.info("Get list medical record");
-        return medicalRecordDAO.getAllMedicalRecords();
+        return medicalRecordService.findAll();
     }
 
 }

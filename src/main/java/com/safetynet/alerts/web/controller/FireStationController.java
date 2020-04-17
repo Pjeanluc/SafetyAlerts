@@ -11,11 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
 
-import com.safetynet.alerts.DAO.FireStationDAO;
 import com.safetynet.alerts.model.FireStation;
+import com.safetynet.alerts.services.FireStationService;
 import com.safetynet.alerts.web.exceptions.FireStationNotFound;
 
 @RestController
@@ -24,43 +25,44 @@ public class FireStationController {
     private static final Logger logger = LogManager.getLogger("PersonController");
 
     @Autowired
-    private FireStationDAO fireStationDAO;
+    private FireStationService fireStationService;
 
     @PostMapping
-    public String addFireStation(@RequestBody FireStation fireStation) {
-        logger.info("Add firestation : " + fireStation.getAddress() + " " + fireStation.getStation());
+    @ResponseStatus(HttpStatus.CREATED)
+    public FireStation addFireStation(@RequestBody FireStation fireStation) {
+        logger.info("Add firestation : " + fireStation.toString());
 
-        return fireStationDAO.addFireStation(fireStation);
+        return fireStationService.save(fireStation);
 
     }
 
     @PutMapping
     public FireStation modifyFireStation(@RequestBody FireStation fireStation) {
         
-        FireStation fireStationModified = fireStationDAO.updateFireStation(fireStation);
+        FireStation fireStationModified = fireStationService.update(fireStation);
         
         if (fireStationModified != null) {
-            logger.info("Modified firestation : " + fireStationModified);
+            logger.info("Modified firestation : " + fireStationModified.toString());
             return fireStationModified;
-        } else throw new FireStationNotFound(fireStation.getAddress() +" "+fireStation.getStation());
+        } else throw new FireStationNotFound(fireStation.toString());
     }
 
     @DeleteMapping
-    public List<FireStation> removeFireStation(@RequestParam("address") String adress, @RequestParam("station") String station) {
+    public List<FireStation> removeFireStation(@RequestBody FireStation fireStation) {
         
-        List<FireStation> fireStationDeleted = fireStationDAO.deleteFireStation(station, adress);
+        List<FireStation> fireStationDeleted = fireStationService.delete(fireStation);
         
         if (fireStationDeleted.size() != 0) {
-            logger.info("Deleted firestation : " + fireStationDeleted);
+            logger.info("Deleted firestation : " + fireStationDeleted.toString());
             return fireStationDeleted;
-        } else throw new FireStationNotFound(adress +" "+station);
+        } else throw new FireStationNotFound(fireStation.toString());
 
     }
 
     @GetMapping(value = "/all")
     public List<FireStation> listeFireStaion() {
         logger.info("Get list fireStation");
-        return fireStationDAO.getAllFireStations();
+        return fireStationService.findAll();
     }
 
 }

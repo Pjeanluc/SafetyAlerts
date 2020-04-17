@@ -7,6 +7,6 @@ import org.springframework.http.HttpStatus;
 public class PersonNotFound extends RuntimeException {
 
         public PersonNotFound(String s) {
-            super("Personne not found" + s);
+            super("Personne not found :" + s);
         }
 }
