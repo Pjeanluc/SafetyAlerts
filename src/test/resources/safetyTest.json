@@ -13,8 +13,8 @@
     	{ "address":"", "station":"delete" }
     	],
     "medicalrecords": [
-        { "firstName":"Firstnametest1", "lastName":"Lastnametest1", "birthdate":"03/06/1984", "medications":["aznol:350mg", "hydrapermazol:100mg"], "allergies":["nillacilan"] },
-        { "firstName":"Firstnametest2", "lastName":"Lastnametest2", "birthdate":"03/06/1989", "medications":["pharmacol:5000mg", "terazine:10mg", "noznazol:250mg"], "allergies":[] },
+        { "firstName":"Firstnametest1", "lastName":"Lastnametest1", "birthdate":"01/01/2001", "medications":["med1"], "allergies":["allergi1"] },
+        { "firstName":"Firstnametest2", "lastName":"Lastnametest2", "birthdate":"02/02/2002", "medications":["med2"], "allergies":["allergi2"] },
         { "firstName":"firstnamedeletetest", "lastName":"lastnamedeletetest", "birthdate":"02/18/2012", "medications":[], "allergies":["peanut"] }
         ] 
 }

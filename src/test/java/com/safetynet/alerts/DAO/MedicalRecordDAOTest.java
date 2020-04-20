@@ -1,9 +1,12 @@
 package com.safetynet.alerts.DAO;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -24,12 +27,41 @@ class MedicalRecordDAOTest {
     MedicalRecordsDAO medicalRecordDAO;
 
     @Test
-    public void saveOneMedicalRecordTest() throws ParseException {
+    public void getMedicalExistingRecordTest() throws ParseException {
 
         // GIVEN
-        String stringDate = "01/01/1990";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date birthDay = dateFormat.parse(stringDate);
+        Date birthDay = dateFormat.parse("01/01/2001");
+        List<String> medications = new ArrayList<String>();
+        medications.add("med1");
+        List<String> allergies = new ArrayList<String>();
+        allergies.add("allergi1");
+
+        // WHEN
+        MedicalRecord medicalRecord = medicalRecordDAO.getMedicalRecords("Firstnametest1","Lastnametest1");
+
+        // THEN
+        assertThat(medicalRecord.getBirthdate()).isCloseTo(birthDay, within(3600000,ChronoUnit.MILLIS).getValue());
+        assertThat(medicalRecord.getMedications()).isEqualTo(medications);
+        assertThat(medicalRecord.getAllergies()).isEqualTo(allergies);
+    }
+    
+    @Test
+    public void getMedicalNotExistingRecordTest() throws ParseException {
+
+        // GIVEN       
+        // WHEN
+        // THEN
+        assertThat(medicalRecordDAO.getMedicalRecords("FirstnametestNotExist","LastnametestNotExist")).isNull();
+        
+    }
+    
+    @Test
+    public void saveOneMedicalRecordTest() throws ParseException {
+
+        // GIVEN        
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date birthDay = dateFormat.parse("01/01/1990");
         List<String> medications = new ArrayList<String>();
         medications.add("");
         List<String> allergies = new ArrayList<String>();

@@ -84,4 +84,17 @@ public class FireStationDAOImpl implements FireStationDAO {
 
     }
 
+    @Override
+    public List<String> getadressFireStationByStation(String station) {
+        List<String> listAddress = new ArrayList<>();
+
+        for (FireStation f : fireStations) {
+            if (f.getStation().contentEquals(station)) {
+                listAddress.add(f.getAddress());
+            }
+        }
+
+        return listAddress;
+    }
+
 }

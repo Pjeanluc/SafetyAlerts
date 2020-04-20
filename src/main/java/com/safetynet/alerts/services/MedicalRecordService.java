@@ -1,5 +1,6 @@
 package com.safetynet.alerts.services;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +8,18 @@ import org.springframework.stereotype.Repository;
 
 import com.safetynet.alerts.DAO.MedicalRecordsDAO;
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.model.Person;
 
 @Repository
 public class MedicalRecordService {
     @Autowired
     private MedicalRecordsDAO MedicalRecordsDAO;
-    
+
     @Autowired
     private PersonService personService;
+    
+    @Autowired
+    private ServiceUtil serviceUtil;
 
     public List<MedicalRecord> findAll() {
         return MedicalRecordsDAO.getAllMedicalRecords();
@@ -25,7 +30,7 @@ public class MedicalRecordService {
     }
 
     public MedicalRecord save(MedicalRecord medicalRecord) {
-        
+
         if (personService.findPerson(medicalRecord.getFirstName(), medicalRecord.getLastName()) != null) {
             return MedicalRecordsDAO.addMedicalRecords(medicalRecord);
         }
@@ -43,4 +48,16 @@ public class MedicalRecordService {
         return MedicalRecordsDAO.deleteMedicalRecords(firstName, lastName);
     }
 
+    public Boolean isChild(Person person) throws ParseException {
+        Boolean isChild = false;       
+
+        MedicalRecord medicalRecord = new MedicalRecord();
+        medicalRecord = findMedicalRecord(person.getFirstName(), person.getLastName());
+
+        if (medicalRecord != null) {
+            isChild = serviceUtil.isMinorPeopleFromDate(medicalRecord.getBirthdate());
+        }
+
+        return isChild;
+    }
 }

@@ -75,4 +75,19 @@ public class PersonDAOImpl implements PersonDAO {
 
     }
 
+    @Override
+    public List<Person> findPersonByAdress(String address) {
+        List<Person> personByAddress = new ArrayList<>();
+        
+        for (Person p : persons) {
+
+            if (p.getAddress().equals(address)) {
+
+                personByAddress.add(p);
+            }
+        }
+        
+        return personByAddress;
+    }
+
 }

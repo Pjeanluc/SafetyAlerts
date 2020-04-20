@@ -35,5 +35,9 @@ public class PersonService {
 
         return personDAO.deletePerson(firstName, lastName);
     }
+    
+    public List<Person> findPersonByAddress(String address){
+        return personDAO.findPersonByAdress(address);        
+    }
 
 }
