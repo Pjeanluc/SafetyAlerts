@@ -14,6 +14,24 @@ public class MedicalRecord {
     private List<String> medications;
     private List<String> allergies;
     
+    public MedicalRecord() {
+        super();
+    }
+    
+    public MedicalRecord(String firstName, String lastName, Date birthdate, List<String> medications,
+            List<String> allergies) {
+        super();
+        this.firstName = firstName;
+        this.lastName = lastName;
+        if (birthdate == null) {
+            this.birthdate = null;
+        } else {
+            this.birthdate = new Date(birthdate.getTime());
+        };       
+        this.medications = medications;
+        this.allergies = allergies;
+    }
+
     public String getFirstName() {
         return firstName;
     }

@@ -37,7 +37,8 @@ class PersonControllerTest {
 
     final String FIRSTNAME = "firstnametest";
     final String LASTNAME = "lastnametest";
-    final String PAYLOAD = "{\"firstname\":\"firstnametest\",\"lastname\":\"lastnametest\",\"address\":\"\",\"city\":\"\",\"zip\":\"\",\"phone\":\"\",\"email\":\"\"}";
+    final String PAYLOAD = "{\"firstname\":\"firstnametest\",\"lastname\":\"lastnametest\","
+                          +"\"address\":\"\",\"city\":\"\",\"zip\":\"\",\"phone\":\"\",\"email\":\"\"}";
 
     @Test
     public void GiveAllPersonTest() throws Exception {

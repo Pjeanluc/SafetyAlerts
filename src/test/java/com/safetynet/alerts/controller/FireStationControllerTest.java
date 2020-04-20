@@ -39,7 +39,7 @@ public class FireStationControllerTest {
     @Test
     public void GiveAllFireStationTest() throws Exception {
 
-        // WHEN //THEN 
+        // WHEN //THEN
 
         this.mockMvc.perform(get("/firestation/all")).andExpect(status().isOk());
     }
@@ -48,11 +48,12 @@ public class FireStationControllerTest {
     public void PostFireStationTest() throws Exception {
 
         // GIVEN
-        Mockito.when(fireStationService.save(any(FireStation.class))).thenReturn(new FireStation());
+        Mockito.when(fireStationService.save(any(FireStation.class)))
+                .thenReturn(new FireStation("20 rue de Paris", "3"));
 
         String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
 
-        // WHEN //THEN 
+        // WHEN //THEN
         this.mockMvc.perform(post("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isCreated());
     }
@@ -61,9 +62,7 @@ public class FireStationControllerTest {
     public void PutFireStationWitheFireStationExistingTest() throws Exception {
 
         // GIVEN
-        fireStationMock = new FireStation();
-        fireStationMock.setAddress("20 rue de Paris");
-        fireStationMock.setStation("3");
+        fireStationMock = new FireStation("20 rue de Paris", "3");
 
         Mockito.when(fireStationService.update(any(FireStation.class))).thenReturn(fireStationMock);
 
@@ -73,11 +72,10 @@ public class FireStationControllerTest {
         this.mockMvc
                 .perform(put("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.station").value("3"))
+                .andDo(print()).andExpect(status().isOk()).andExpect(jsonPath("$.station").value("3"))
                 .andExpect(jsonPath("$.address").value("20 rue de Paris"));
     }
+
     @Test
     public void PutFireStationWitheFireStationDotNotExistTest() throws Exception {
 
@@ -86,35 +84,30 @@ public class FireStationControllerTest {
 
         String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
 
-        // WHEN //THEN 
-        this.mockMvc
-                .perform(put("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        // WHEN //THEN
+        this.mockMvc.perform(put("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }
-    
+
     @Test
     public void deleteFireStationWitheFireStationExistTest() throws Exception {
 
         // GIVEN
         List<FireStation> listFireStationMock = new ArrayList<>();
-        fireStationMock = new FireStation();
-        fireStationMock.setAddress("20 rue de Paris");
-        fireStationMock.setStation("3");
+        fireStationMock = new FireStation("20 rue de Paris", "3");
         listFireStationMock.add(fireStationMock);
         Mockito.when(fireStationService.delete(any(FireStation.class))).thenReturn(listFireStationMock);
 
         String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
 
-        // WHEN //THEN 
+        // WHEN //THEN
         this.mockMvc
                 .perform(delete("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$..station").value("3"))
+                .andExpect(status().isOk()).andExpect(jsonPath("$..station").value("3"))
                 .andExpect(jsonPath("$..address").value("20 rue de Paris"));
     }
-    
+
     @Test
     public void deleteFireStationWitheFireStationDotNotExistTest() throws Exception {
 
@@ -124,10 +117,8 @@ public class FireStationControllerTest {
 
         String payload = "{ \"address\": \"20 rue de Paris\",\"station\": \"3\" }";
 
-        // WHEN //THEN 
-        this.mockMvc
-                .perform(delete("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
+        // WHEN //THEN
+        this.mockMvc.perform(delete("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }
 }

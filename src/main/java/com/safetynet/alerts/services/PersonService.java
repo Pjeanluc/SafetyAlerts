@@ -13,28 +13,26 @@ public class PersonService {
     @Autowired
     private PersonDAO personDAO;
 
-        public List<Person> findAll() {
+    public List<Person> findAll() {
         return personDAO.getAllPersons();
     }
-       
-        public Person findPerson(String firstName, String lastName) {
-            return personDAO.findPersonByFirstNameAndLastName(firstName, lastName);
-        }
-   
-    public Person save(Person person){
-      
+
+    public Person findPerson(String firstName, String lastName) {
+        return personDAO.findPersonByFirstNameAndLastName(firstName, lastName);
+    }
+
+    public Person save(Person person) {
+
         return personDAO.addPerson(person);
     }
 
-    
-    public Person update(Person person){
-       
+    public Person update(Person person) {
+
         return personDAO.updatePerson(person);
     }
-    
-       
-    public Boolean delete(String firstName, String lastName){
-      
+
+    public Boolean delete(String firstName, String lastName) {
+
         return personDAO.deletePerson(firstName, lastName);
     }
 

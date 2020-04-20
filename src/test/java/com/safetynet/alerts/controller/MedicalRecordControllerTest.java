@@ -38,7 +38,8 @@ class MedicalRecordControllerTest {
 
     final String FIRSTNAME = "firstnametest";
     final String LASTNAME = "lastnametest";
-    final String PAYLOAD = "{\"firstname\":\"firstnametest\",\"lastname\":\"lastnametest\",\"birthdate\":\"\",\"medications\":[],\"allergies\":[]}";
+    final String PAYLOAD = "{\"firstname\":\"firstnametest\",\"lastname\":\"lastnametest\","
+                           +"\"birthdate\":\"\",\"medications\":[],\"allergies\":[]}";
 
     @Test
     public void GiveAllMedicalRecordTest() throws Exception {

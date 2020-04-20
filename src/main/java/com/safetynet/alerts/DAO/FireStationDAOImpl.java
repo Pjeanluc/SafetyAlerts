@@ -65,7 +65,8 @@ public class FireStationDAOImpl implements FireStationDAO {
         // delete with station and address
         if (!fireStation.getAddress().isEmpty() && !fireStation.getStation().isEmpty()) {
             for (FireStation f : fireStations) {
-                if ((f.getStation().contentEquals(fireStation.getStation())) && (f.getAddress().contentEquals(fireStation.getAddress()))) {
+                if ((f.getStation().contentEquals(fireStation.getStation()))
+                        && (f.getAddress().contentEquals(fireStation.getAddress()))) {
                     fireStationsDeleted.add(f);
                 }
             }
