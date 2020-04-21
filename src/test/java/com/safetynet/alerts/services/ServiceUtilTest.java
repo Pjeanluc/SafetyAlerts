@@ -2,7 +2,6 @@ package com.safetynet.alerts.services;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -22,77 +21,37 @@ class ServiceUtilTest {
     
     @Autowired
     ServiceUtil serviceUtil;
-
+    
     @Test
-    void isMajorByAgeJustMajorTest() throws ParseException {
-
-        assertThat(serviceUtil.isMinorPeopleFromAge(18)).isFalse();
-
-    }
-
-    @Test
-    void isMajorByAgeTest() throws ParseException {
-
-        assertThat(serviceUtil.isMinorPeopleFromAge(19)).isFalse();
-
-    }
-
-    @Test
-    void isMinorByAgeTest() throws ParseException {
-
-        assertThat(serviceUtil.isMinorPeopleFromAge(17)).isTrue();
-
-    }
-
-    @Test
-    void isMinorForNewBornByAgeTest() throws ParseException {
-
-        assertThat(serviceUtil.isMinorPeopleFromAge(0)).isTrue();
-
-    }
-
-    @Test
-    void isMajorByDateJustMajorTest() throws ParseException {
+    void calculAgeJustMajorTest() {
         LocalDateTime localDateTime = LocalDateTime.now();
         Date d = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
         Date birthDay = addYears(d, -18);
 
-        assertThat(serviceUtil.isMinorPeopleFromDate(birthDay)).isFalse();
-
+        assertThat(serviceUtil.calculateAge(birthDay)).isEqualTo(18);
     }
-
+    
     @Test
-    void isMajorByDateTest() throws ParseException {
-        LocalDateTime localDateTime = LocalDateTime.now();
-        Date d = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
-        Date birthDay = addYears(d, -20);
-
-        assertThat(serviceUtil.isMinorPeopleFromDate(birthDay)).isFalse();
-
-    }
-
-    @Test
-    void isMinorByDateTest() throws ParseException {
+    void calculAgeMinorTest() {
         LocalDateTime localDateTime = LocalDateTime.now();
         Date d = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
         Date birthDay = addYears(d, -17);
 
-        assertThat(serviceUtil.isMinorPeopleFromDate(birthDay)).isTrue();
-
+        assertThat(serviceUtil.calculateAge(birthDay)).isEqualTo(17);
     }
-
+    
     @Test
-    void isMinorForNewBornByDateTest() throws ParseException {
+    void calculAgeJustBornTest() {
         LocalDateTime localDateTime = LocalDateTime.now();
-        Date birthDay = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        Date d = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
 
-        assertThat(serviceUtil.isMinorPeopleFromDate(birthDay)).isTrue();
+        Date birthDay = d;
 
+        assertThat(serviceUtil.calculateAge(birthDay)).isEqualTo(0);
     }
-
+    
     public static Date addYears(Date date, int nb) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);        

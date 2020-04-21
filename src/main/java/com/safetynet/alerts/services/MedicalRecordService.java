@@ -17,7 +17,7 @@ public class MedicalRecordService {
 
     @Autowired
     private PersonService personService;
-    
+
     @Autowired
     private ServiceUtil serviceUtil;
 
@@ -49,15 +49,19 @@ public class MedicalRecordService {
     }
 
     public Boolean isChild(Person person) throws ParseException {
-        Boolean isChild = false;       
+        int agePerson = 0;
 
         MedicalRecord medicalRecord = new MedicalRecord();
         medicalRecord = findMedicalRecord(person.getFirstName(), person.getLastName());
 
         if (medicalRecord != null) {
-            isChild = serviceUtil.isMinorPeopleFromDate(medicalRecord.getBirthdate());
+            agePerson = serviceUtil.calculateAge(medicalRecord.getBirthdate());
         }
 
-        return isChild;
+        if (agePerson < 18) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

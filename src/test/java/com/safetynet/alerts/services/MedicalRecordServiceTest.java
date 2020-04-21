@@ -33,8 +33,9 @@ class MedicalRecordServiceTest {
     @MockBean
     MedicalRecordsDAO medicalRecordsDAOMock;
     
-    @Autowired
+    @MockBean
     ServiceUtil serviceUtil;
+
     
     @Autowired
     MedicalRecordService medicalRecordService;
@@ -86,11 +87,12 @@ class MedicalRecordServiceTest {
         assertThat(medicalRecordService.save(medicalRecordTest)).isNull();       
         
     }
+      
+    
     @Test
-    void isChildTest() throws ParseException {
+    void isNotChildTest() throws ParseException {
         // GIVEN
         Person person = new Person("firstname","lastname","","","","","");
-        
         String stringDate = "01/01/1990";
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");     
         Date birthDay = dateFormat.parse(stringDate);
@@ -98,29 +100,39 @@ class MedicalRecordServiceTest {
         medications.add("");
         List<String> allergies = new ArrayList<String>();
         allergies.add("");
-        MedicalRecord medicalRecordTest = new MedicalRecord("Firstnametest","Lastnametest",birthDay, medications, allergies);
+       
+        MedicalRecord medicalRecordTest = new MedicalRecord("Firstnametest3","Lastnametest3",birthDay, medications, allergies);
         
-            
-        Mockito.when(medicalRecordsDAOMock.getMedicalRecords(any(String.class), (any(String.class))))
+        Mockito.when(medicalRecordsDAOMock.getMedicalRecords(any(String.class),any(String.class)))
         .thenReturn(medicalRecordTest);
-        //Mockito.when(serviceUtil.isMinorPeopleFromDate(birthDay)).thenReturn(true);
-         
-        // WHEN
-        // THEN
-        assertThat(medicalRecordService.isChild(person)).isTrue();        
-    }
-    /*
-    @Test
-    void isNotChildTest() throws ParseException {
-        // GIVEN
-        Person person = new Person("firstname","lastname","","","","","");
-        Mockito.when(medicalRecordsDAOMock.addMedicalRecords(any(MedicalRecord.class)))
-        .thenReturn(new MedicalRecord());
-        Mockito.when(serviceUtil.isMinorPeopleFromDate(any(Date.class))).thenReturn(false);
+        Mockito.when(serviceUtil.calculateAge(any(Date.class))).thenReturn(18);
          
         // WHEN
         // THEN
         assertThat(medicalRecordService.isChild(person)).isFalse();        
     }
-*/
+
+    @Test
+    void isChildTest() throws ParseException {
+        // GIVEN
+        Person person = new Person("firstname","lastname","","","","","");
+        String stringDate = "01/01/1990";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");     
+        Date birthDay = dateFormat.parse(stringDate);
+        List<String> medications = new ArrayList<String>();
+        medications.add("");
+        List<String> allergies = new ArrayList<String>();
+        allergies.add("");
+       
+        MedicalRecord medicalRecordTest = new MedicalRecord("Firstnametest3","Lastnametest3",birthDay, medications, allergies);
+        
+        Mockito.when(medicalRecordsDAOMock.getMedicalRecords(any(String.class),any(String.class)))
+        .thenReturn(medicalRecordTest);
+        Mockito.when(serviceUtil.calculateAge(any(Date.class))).thenReturn(17);
+         
+        // WHEN
+        // THEN
+        assertThat(medicalRecordService.isChild(person)).isTrue();        
+    }
+    
 }
