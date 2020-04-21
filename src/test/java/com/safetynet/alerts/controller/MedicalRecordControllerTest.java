@@ -39,15 +39,7 @@ class MedicalRecordControllerTest {
     final String FIRSTNAME = "firstnametest";
     final String LASTNAME = "lastnametest";
     final String PAYLOAD = "{\"firstname\":\"firstnametest\",\"lastname\":\"lastnametest\","
-                           +"\"birthdate\":\"\",\"medications\":[],\"allergies\":[]}";
-
-    @Test
-    public void GiveAllMedicalRecordTest() throws Exception {
-
-        // WHEN //THEN
-
-        this.mockMvc.perform(get("/medicalrecord/all")).andExpect(status().isOk());
-    }
+            + "\"birthdate\":\"\",\"medications\":[],\"allergies\":[]}";
 
     @Test
     public void GiveOneExistingMedicalRecordTest() throws Exception {
@@ -114,11 +106,11 @@ class MedicalRecordControllerTest {
 
         // WHEN //THEN
         this.mockMvc
-        .perform(delete("/medicalrecord?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isOk());
+                .perform(delete("/medicalrecord?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
-    
+
     @Test
     public void deleteMedicalRecordWithMedicalRecordDoNotExistTest() throws Exception {
         // GIVEN
@@ -127,9 +119,9 @@ class MedicalRecordControllerTest {
 
         // WHEN //THEN
         this.mockMvc
-        .perform(delete("/medicalrecord?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-        .andExpect(status().isNotFound());
+                .perform(delete("/medicalrecord?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
-   
+
 }

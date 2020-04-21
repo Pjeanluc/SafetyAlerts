@@ -1,7 +1,5 @@
 package com.safetynet.alerts.web.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
@@ -73,12 +71,6 @@ public class PersonController {
             throw new PersonNotFound(firstName + " " + lastName);
 
         return person;
-    }
-
-    @GetMapping(value = "/all")
-    public List<Person> listePersons() {
-        logger.info("Get list person");
-        return personService.findAll();
     }
 
 }

@@ -1,7 +1,5 @@
 package com.safetynet.alerts.web.controller;
 
-import java.util.List;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,12 +74,6 @@ public class MedicalRecordController {
         } else
             throw new MedicalRecordNotFound(firstName + " " + lastName);
 
-    }
-
-    @GetMapping(value = "/all")
-    public List<MedicalRecord> listeMedicalRecord() {
-        logger.info("Get list medical record");
-        return medicalRecordService.findAll();
     }
 
 }

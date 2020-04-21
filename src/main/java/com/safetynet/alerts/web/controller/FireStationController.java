@@ -11,11 +11,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
 
 import com.safetynet.alerts.model.FireStation;
+import com.safetynet.alerts.model.url.FireStationCoverage;
 import com.safetynet.alerts.services.FireStationService;
 import com.safetynet.alerts.web.exceptions.FireStationNotFound;
 
@@ -38,31 +40,32 @@ public class FireStationController {
 
     @PutMapping
     public FireStation modifyFireStation(@RequestBody FireStation fireStation) {
-        
+
         FireStation fireStationModified = fireStationService.update(fireStation);
-        
+
         if (fireStationModified != null) {
             logger.info("Modified firestation : " + fireStationModified.toString());
             return fireStationModified;
-        } else throw new FireStationNotFound(fireStation.toString());
+        } else
+            throw new FireStationNotFound(fireStation.toString());
     }
 
     @DeleteMapping
     public List<FireStation> removeFireStation(@RequestBody FireStation fireStation) {
-        
+
         List<FireStation> fireStationDeleted = fireStationService.delete(fireStation);
-        
+
         if (fireStationDeleted.size() != 0) {
             logger.info("Deleted firestation : " + fireStationDeleted.toString());
             return fireStationDeleted;
-        } else throw new FireStationNotFound(fireStation.toString());
+        } else
+            throw new FireStationNotFound(fireStation.toString());
 
     }
-
-    @GetMapping(value = "/all")
-    public List<FireStation> listeFireStaion() {
-        logger.info("Get list fireStation");
-        return fireStationService.findAll();
+    
+   @GetMapping    
+   public FireStationCoverage getFireStationCoverage(@RequestParam("station") String station) throws Exception {
+       return fireStationService.fireStationPersonsCovered(station);
+        
     }
-
 }

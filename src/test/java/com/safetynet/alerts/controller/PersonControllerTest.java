@@ -38,15 +38,7 @@ class PersonControllerTest {
     final String FIRSTNAME = "firstnametest";
     final String LASTNAME = "lastnametest";
     final String PAYLOAD = "{\"firstname\":\"firstnametest\",\"lastname\":\"lastnametest\","
-                          +"\"address\":\"\",\"city\":\"\",\"zip\":\"\",\"phone\":\"\",\"email\":\"\"}";
-
-    @Test
-    public void GiveAllPersonTest() throws Exception {
-
-        // WHEN //THEN 
-
-        this.mockMvc.perform(get("/person/all")).andExpect(status().isOk());
-    }
+            + "\"address\":\"\",\"city\":\"\",\"zip\":\"\",\"phone\":\"\",\"email\":\"\"}";
 
     @Test
     public void GiveOneExistingPersonTest() throws Exception {
@@ -59,7 +51,7 @@ class PersonControllerTest {
 
         Mockito.when(personService.findPerson(any(String.class), any(String.class))).thenReturn(personMock);
 
-        // WHEN //THEN 
+        // WHEN //THEN
         this.mockMvc
                 .perform(get("/person?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME)
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -74,7 +66,7 @@ class PersonControllerTest {
 
         Mockito.when(personService.findPerson(any(String.class), any(String.class))).thenReturn(null);
 
-        // WHEN //THEN 
+        // WHEN //THEN
         this.mockMvc
                 .perform(get("/person?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME)
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
@@ -92,7 +84,7 @@ class PersonControllerTest {
 
         Mockito.when(personService.update(any(Person.class))).thenReturn(personMock);
 
-        // WHEN //THEN 
+        // WHEN //THEN
         this.mockMvc
                 .perform(put("/person").content(PAYLOAD).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
@@ -107,7 +99,7 @@ class PersonControllerTest {
 
         Mockito.when(personService.update(any(Person.class))).thenReturn(null);
 
-        // WHEN //THEN 
+        // WHEN //THEN
         this.mockMvc.perform(put("/person").content(PAYLOAD).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
     }
@@ -133,9 +125,11 @@ class PersonControllerTest {
 
         Mockito.when(personService.delete(any(String.class), any(String.class))).thenReturn(false);
 
-        // WHEN //THEN 
-        this.mockMvc.perform(delete("/person?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME).content(PAYLOAD).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+        // WHEN //THEN
+        this.mockMvc
+                .perform(delete("/person?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME).content(PAYLOAD)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
 }

@@ -20,6 +20,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import com.safetynet.alerts.model.FireStation;
+import com.safetynet.alerts.model.url.FireStationCoverage;
 import com.safetynet.alerts.services.FireStationService;
 
 @SpringBootTest
@@ -35,14 +36,6 @@ public class FireStationControllerTest {
 
     @MockBean
     FireStationService fireStationService;
-
-    @Test
-    public void GiveAllFireStationTest() throws Exception {
-
-        // WHEN //THEN
-
-        this.mockMvc.perform(get("/firestation/all")).andExpect(status().isOk());
-    }
 
     @Test
     public void PostFireStationTest() throws Exception {
@@ -120,5 +113,18 @@ public class FireStationControllerTest {
         // WHEN //THEN
         this.mockMvc.perform(delete("/firestation").content(payload).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void getCoverageFireStation() throws Exception {
+
+        // GIVEN
+
+        Mockito.when(fireStationService.fireStationPersonsCovered(any(String.class)))
+                .thenReturn(new FireStationCoverage());
+
+        // WHEN //THEN
+        this.mockMvc.perform(get("/firestation?station=\"3\"").accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 }
