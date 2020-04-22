@@ -10,6 +10,7 @@ public interface FireStationDAO {
     public FireStation updateFireStation(FireStation fireStation);
     public List<FireStation> deleteFireStation(FireStation fireStation);
     public List<String> getadressFireStationByStation(String station);
+    public String getStationByAddress(String address);
     public void setAllFireStations(List<FireStation> listFireStations);  
     
 

@@ -1,7 +1,9 @@
 package com.safetynet.alerts.controller;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -15,26 +17,24 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class AlertControllerTest {
+class FireControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    
-    @Test
-    void ChildAlertTest() throws Exception {
-        // GIVEN
 
+    @Test
+    void getFireListPersonWithExistingAddressTest() throws Exception {
+        // GIVEN
         // WHEN //THEN
-        this.mockMvc.perform(get("/childAlert?address=\"20 rue de Paris\"").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        this.mockMvc.perform(get("/fire?address=adresstest1").accept(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$..station").value("1")).andExpect(status().isOk());
     }
-    
-    @Test
-    void PhoneAlertTest() throws Exception {
-        // GIVEN
 
+    @Test
+    void getFireListPersonWithNotExistingAddressTest() throws Exception {
+        // GIVEN
         // WHEN //THEN
-        this.mockMvc.perform(get("/phoneAlert?firestation=\"1").accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk());
+        this.mockMvc.perform(get("/fire?address=adresstestnotexist").accept(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("[]")).andExpect(status().isOk());
     }
 
 }

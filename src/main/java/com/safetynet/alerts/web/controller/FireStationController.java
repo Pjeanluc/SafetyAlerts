@@ -65,6 +65,7 @@ public class FireStationController {
     
    @GetMapping    
    public FireStationCoverage getFireStationCoverage(@RequestParam("station") String station) throws Exception {
+       logger.info("getFireStationCoverage sucess");
        return fireStationService.fireStationPersonsCovered(station);
         
     }

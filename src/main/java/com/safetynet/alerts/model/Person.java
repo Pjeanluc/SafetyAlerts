@@ -5,10 +5,10 @@ import javax.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
 public class Person {
-   
-    @Length(min=1)
+
+    @Length(min = 1)
     private String firstName;
-    @Length(min=1)
+    @Length(min = 1)
     private String lastName;
     private String address;
     private String city;
@@ -16,8 +16,7 @@ public class Person {
     private String phone;
     @Email
     private String email;
-    
-    
+
     public Person() {
         super();
     }
@@ -33,19 +32,19 @@ public class Person {
         this.phone = phone;
         this.email = email;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
-  
+
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    
+
     public String getLastName() {
         return lastName;
     }
-  
+
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
@@ -126,8 +125,4 @@ public class Person {
         return true;
     }
 
-   
- 
-
 }
-

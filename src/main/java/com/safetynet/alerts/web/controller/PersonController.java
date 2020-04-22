@@ -1,5 +1,7 @@
 package com.safetynet.alerts.web.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.apache.logging.log4j.LogManager;
@@ -63,14 +65,14 @@ public class PersonController {
     }
 
     @GetMapping
-    public Person getPerson(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName) {
+    public List<Person> getPerson(@RequestParam("firstname") String firstName, @RequestParam("lastname") String lastName) {
         logger.info("Get person");
-        Person person = personService.findPerson(firstName, lastName);
+        List<Person> persons = personService.findPerson(firstName, lastName);
 
-        if (person == null)
+        if (persons.size() == 0)
             throw new PersonNotFound(firstName + " " + lastName);
 
-        return person;
+        return persons;
     }
 
 }

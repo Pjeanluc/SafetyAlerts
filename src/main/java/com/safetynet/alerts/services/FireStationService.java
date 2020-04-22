@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.util.List;
 
 import com.safetynet.alerts.model.FireStation;
+import com.safetynet.alerts.model.url.FireListPerson;
 import com.safetynet.alerts.model.url.FireStationCoverage;
+import com.safetynet.alerts.model.url.FloodHome;
 
 public interface FireStationService {
     
@@ -13,9 +15,17 @@ public interface FireStationService {
     public FireStation save(FireStation fireStation);
 
     public FireStation update(FireStation fireStation);
+    
+    public String stationNumber(String adress);
 
     public List<FireStation> delete(FireStation fireStation);
+    
+    public List<String> addressCoveredByStation(String station); 
 
     public FireStationCoverage fireStationPersonsCovered(String station) throws ParseException;
+
+    public List<FireListPerson> getFireListPerson(String address);
+
+    public List<FloodHome> getFloodListHome(List<String> stations);
 
 }

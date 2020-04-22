@@ -96,5 +96,29 @@ class FireStationDAOTest {
         assertThat(fireStationDAO.deleteFireStation(fireStationDelete).size()).isEqualTo(1);
 
     }
+    
+    @Test
+    public void getStationByAddressExistingTest() {
+        
+        assertThat(fireStationDAO.getStationByAddress("adresstest1")).isEqualTo("1");
+    }
+    
+    @Test
+    public void getStationByAddressNotExistingTest() {
+        
+        assertThat(fireStationDAO.getStationByAddress("adresstestnotexist")).isEqualTo("Not Found");
+    }
+    
+    @Test
+    public void getAddressByStationExistingTest() {
+        
+        assertThat(fireStationDAO.getadressFireStationByStation("1").size()).isEqualTo(1);
+    }
+    
+    @Test
+    public void getAddressByStationNotExistingTest() {
+        
+        assertThat(fireStationDAO.getadressFireStationByStation("5").size()).isEqualTo(0);
+    }
 
 }

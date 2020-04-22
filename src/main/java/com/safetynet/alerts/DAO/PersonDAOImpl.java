@@ -56,20 +56,24 @@ public class PersonDAOImpl implements PersonDAO {
     }
 
     @Override
-    public Person findPersonByFirstNameAndLastName(String firstName, String lastName) {
+    public List<Person> findPersonByFirstNameAndLastName(String firstName, String lastName) {
+        List<Person> result = new ArrayList<>();
 
-        for (Person person : persons) {
-
-            if ((person.getFirstName().equals(firstName)) && (person.getLastName().equals(lastName))) {
-
-                return person;
+        if (firstName != "") {
+            for (Person p : persons) {
+                if ((p.getFirstName().contentEquals(firstName)) && (p.getLastName().contentEquals(lastName)))
+                    result.add(p);
+            }
+        } else {
+            for (Person p : persons) {
+                if (p.getLastName().contentEquals(lastName))
+                    result.add(p);
             }
         }
-
-        return null;
+        return result;
     }
 
-       @Override
+    @Override
     public void setAllPersons(List<Person> listPerson) {
         this.persons = listPerson;
 
@@ -78,15 +82,15 @@ public class PersonDAOImpl implements PersonDAO {
     @Override
     public List<Person> findPersonByAdress(String address) {
         List<Person> personByAddress = new ArrayList<>();
-        
+
         for (Person p : persons) {
 
-            if (p.getAddress().equals(address)) {
+            if (p.getAddress().contentEquals(address)) {
 
                 personByAddress.add(p);
             }
         }
-        
+
         return personByAddress;
     }
 

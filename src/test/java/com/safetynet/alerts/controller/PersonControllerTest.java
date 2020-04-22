@@ -7,6 +7,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -44,19 +47,22 @@ class PersonControllerTest {
     public void GiveOneExistingPersonTest() throws Exception {
 
         // GIVEN
+        List<Person> listPersonsMock = new ArrayList<>();
 
         personMock = new Person();
         personMock.setFirstName(FIRSTNAME);
         personMock.setLastName(LASTNAME);
+        
+        listPersonsMock.add(personMock);
 
-        Mockito.when(personService.findPerson(any(String.class), any(String.class))).thenReturn(personMock);
+        Mockito.when(personService.findPerson(any(String.class), any(String.class))).thenReturn(listPersonsMock);
 
         // WHEN //THEN
         this.mockMvc
                 .perform(get("/person?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME)
                         .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk()).andExpect(jsonPath("$.firstName").value(FIRSTNAME))
-                .andExpect(jsonPath("$.lastName").value(LASTNAME));
+                .andExpect(status().isOk()).andExpect(jsonPath("$..firstName").value(FIRSTNAME))
+                .andExpect(jsonPath("$..lastName").value(LASTNAME));
     }
 
     @Test

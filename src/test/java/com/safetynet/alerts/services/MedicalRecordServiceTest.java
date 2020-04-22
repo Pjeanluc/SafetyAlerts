@@ -45,7 +45,7 @@ class MedicalRecordServiceTest {
     void saveMedicalRecordWithExistingPerson() throws ParseException {
         // GIVEN   
         Mockito.when(personServiceMock.findPerson(any(String.class), any(String.class)))
-        .thenReturn(new Person());        
+        .thenReturn(new ArrayList<>());        
         Mockito.when(medicalRecordsDAOMock.addMedicalRecords(any(MedicalRecord.class)))
         .thenReturn(new MedicalRecord());
         
@@ -87,52 +87,5 @@ class MedicalRecordServiceTest {
         assertThat(medicalRecordService.save(medicalRecordTest)).isNull();       
         
     }
-      
-    
-    @Test
-    void isNotChildTest() throws ParseException {
-        // GIVEN
-        Person person = new Person("firstname","lastname","","","","","");
-        String stringDate = "01/01/1990";
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");     
-        Date birthDay = dateFormat.parse(stringDate);
-        List<String> medications = new ArrayList<String>();
-        medications.add("");
-        List<String> allergies = new ArrayList<String>();
-        allergies.add("");
-       
-        MedicalRecord medicalRecordTest = new MedicalRecord("Firstnametest3","Lastnametest3",birthDay, medications, allergies);
-        
-        Mockito.when(medicalRecordsDAOMock.getMedicalRecords(any(String.class),any(String.class)))
-        .thenReturn(medicalRecordTest);
-        Mockito.when(serviceUtil.calculateAge(any(Date.class))).thenReturn(18);
-         
-        // WHEN
-        // THEN
-        assertThat(medicalRecordService.isChild(person)).isFalse();        
-    }
 
-    @Test
-    void isChildTest() throws ParseException {
-        // GIVEN
-        Person person = new Person("firstname","lastname","","","","","");
-        String stringDate = "01/01/1990";
-        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");     
-        Date birthDay = dateFormat.parse(stringDate);
-        List<String> medications = new ArrayList<String>();
-        medications.add("");
-        List<String> allergies = new ArrayList<String>();
-        allergies.add("");
-       
-        MedicalRecord medicalRecordTest = new MedicalRecord("Firstnametest3","Lastnametest3",birthDay, medications, allergies);
-        
-        Mockito.when(medicalRecordsDAOMock.getMedicalRecords(any(String.class),any(String.class)))
-        .thenReturn(medicalRecordTest);
-        Mockito.when(serviceUtil.calculateAge(any(Date.class))).thenReturn(17);
-         
-        // WHEN
-        // THEN
-        assertThat(medicalRecordService.isChild(person)).isTrue();        
-    }
-    
 }

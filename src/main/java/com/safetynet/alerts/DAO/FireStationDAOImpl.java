@@ -97,4 +97,14 @@ public class FireStationDAOImpl implements FireStationDAO {
         return listAddress;
     }
 
+    @Override
+    public String getStationByAddress(String address) {
+        for (FireStation f : fireStations) {
+            if (f.getAddress().contentEquals(address)) {
+                return f.getStation();
+            }
+        }
+        return "Not Found";
+    }
+
 }
