@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.url.ChildInfo;
+import com.safetynet.alerts.model.url.CommunityEmail;
 import com.safetynet.alerts.model.url.InfoPerson;
 import com.safetynet.alerts.model.url.PhoneInfo;
 
@@ -26,5 +27,7 @@ public interface PersonService {
     public List<PhoneInfo> getListPhoneInfo(String station);
 
     public List<InfoPerson> getPersonInfo(String firstName, String lastName);
+
+    public List<CommunityEmail> getCommunityEmail(String city);
 
 }

@@ -10,6 +10,7 @@ import com.safetynet.alerts.DAO.PersonDAO;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.url.ChildInfo;
+import com.safetynet.alerts.model.url.CommunityEmail;
 import com.safetynet.alerts.model.url.InfoPerson;
 import com.safetynet.alerts.model.url.PhoneInfo;
 
@@ -126,6 +127,22 @@ public class PersonServiceImpl implements PersonService {
             }
             result.add(infoPerson);
         }
+        return result;
+    }
+
+    @Override
+    public List<CommunityEmail> getCommunityEmail(String city) {
+       List<CommunityEmail> result = new ArrayList<>();
+       List<Person> persons = findAll();
+       
+       for(Person p: persons) {
+           if (p.getCity().contentEquals(city)) {
+               CommunityEmail communityEmail = new CommunityEmail();
+               communityEmail.setEmail(p.getEmail());
+               result.add(communityEmail);
+           }           
+       }
+       
         return result;
     }
 

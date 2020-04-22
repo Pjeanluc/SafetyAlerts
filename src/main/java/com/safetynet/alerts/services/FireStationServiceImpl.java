@@ -163,10 +163,11 @@ public class FireStationServiceImpl implements FireStationService {
                 floodListPersons.setLastName(p.getLastName());
                 floodListPersons.setPhone(p.getPhone());
                 medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
-                floodListPersons.setAllergies(medicalRecord.getAllergies());
-                floodListPersons.setMedications(medicalRecord.getMedications());
-                floodListPersons.setAge(serviceUtil.calculateAge(medicalRecord.getBirthdate()));
-
+                if (medicalRecord != null) {
+                    floodListPersons.setAllergies(medicalRecord.getAllergies());
+                    floodListPersons.setMedications(medicalRecord.getMedications());
+                    floodListPersons.setAge(serviceUtil.calculateAge(medicalRecord.getBirthdate()));
+                }
                 listFloodPerson.add(floodListPersons);
             }
             floodHome.setFloodListPersons(listFloodPerson);
