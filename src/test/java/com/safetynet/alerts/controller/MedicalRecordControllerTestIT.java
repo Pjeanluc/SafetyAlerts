@@ -25,7 +25,7 @@ import com.safetynet.alerts.services.MedicalRecordService;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class MedicalRecordControllerTest {
+class MedicalRecordControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -58,12 +58,28 @@ class MedicalRecordControllerTest {
                 .andExpect(status().isOk()).andExpect(jsonPath("$.firstName").value(FIRSTNAME))
                 .andExpect(jsonPath("$.lastName").value(LASTNAME));
     }
+    
+    @Test
+    public void GiveNotExistingMedicalRecordTest() throws Exception {
+
+        Mockito.when(medicalRecordService.findMedicalRecord(any(String.class), any(String.class)))
+                .thenReturn(null);
+
+        // WHEN //THEN
+        this.mockMvc
+                .perform(get("/medicalrecord?firstname=" + FIRSTNAME + "&lastname=" + LASTNAME)
+                        .contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+    }
 
     @Test
     public void PostMedicalRecordTest() throws Exception {
 
         // GIVEN
-        Mockito.when(medicalRecordService.save(any(MedicalRecord.class))).thenReturn(new MedicalRecord());
+        medicalRecordMock = new MedicalRecord();
+        medicalRecordMock.setFirstName(FIRSTNAME);
+        medicalRecordMock.setLastName(LASTNAME);
+        Mockito.when(medicalRecordService.save(any(MedicalRecord.class))).thenReturn(medicalRecordMock);
 
         // WHEN //THEN return the station added
         this.mockMvc.perform(post("/firestation").content(PAYLOAD).contentType(MediaType.APPLICATION_JSON)

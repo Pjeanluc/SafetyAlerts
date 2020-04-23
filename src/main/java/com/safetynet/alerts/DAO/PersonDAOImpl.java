@@ -59,7 +59,7 @@ public class PersonDAOImpl implements PersonDAO {
     public List<Person> findPersonByFirstNameAndLastName(String firstName, String lastName) {
         List<Person> result = new ArrayList<>();
 
-        if (firstName != "") {
+        if (!firstName.isEmpty()) {
             for (Person p : persons) {
                 if ((p.getFirstName().contentEquals(firstName)) && (p.getLastName().contentEquals(lastName)))
                     result.add(p);

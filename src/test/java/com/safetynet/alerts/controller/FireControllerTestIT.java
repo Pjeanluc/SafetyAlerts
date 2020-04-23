@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class FireControllerTest {
+class FireControllerTestIT {
     @Autowired
     private MockMvc mockMvc;
 
@@ -25,7 +25,10 @@ class FireControllerTest {
     void getFireListPersonWithExistingAddressTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        String body ="[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\",\"phone\":\"phonetest1\",\"age\":19,\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"],\"station\":\"1\"},{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\",\"phone\":\"phonetest1\",\"age\":0,\"medications\":null,\"allergies\":null,\"station\":\"1\"}]";
+        String body ="[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\","
+                    +"\"phone\":\"phonetest1\",\"age\":19,\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"],"
+                    +"\"station\":\"1\"},{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\","
+                    +"\"phone\":\"phonetest1\",\"age\":0,\"medications\":null,\"allergies\":null,\"station\":\"1\"}]";
         this.mockMvc.perform(get("/fire?address=adresstest1").accept(MediaType.APPLICATION_JSON))
         .andDo(print())
                 .andExpect(content().string(body)).andExpect(status().isOk());

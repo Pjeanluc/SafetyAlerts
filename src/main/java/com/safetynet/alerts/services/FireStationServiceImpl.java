@@ -51,7 +51,6 @@ public class FireStationServiceImpl implements FireStationService {
 
     @Override
     public String stationNumber(String address) {
-        // TODO Auto-generated method stub
         return firestationDAO.getStationByAddress(address);
     }
 
@@ -73,7 +72,6 @@ public class FireStationServiceImpl implements FireStationService {
         List<FireStationPerson> fireStationPersons = new ArrayList<>();
 
         List<Person> personByStation = new ArrayList<>();
-        List<Person> personByAddress = new ArrayList<>();
 
         List<String> adressCoveredByStation = addressCoveredByStation(station);
 
@@ -82,7 +80,7 @@ public class FireStationServiceImpl implements FireStationService {
 
         // list of person
         for (String a : adressCoveredByStation) {
-            personByAddress = personService.findPersonByAddress(a);
+            List<Person> personByAddress = personService.findPersonByAddress(a);
             personByStation.addAll(personByAddress);
         }
 
@@ -112,17 +110,15 @@ public class FireStationServiceImpl implements FireStationService {
     public List<FireListPerson> getFireListPerson(String address) {
         List<FireListPerson> fireStationListPerson = new ArrayList<>();
 
-        List<Person> personByAddress = new ArrayList<>();
-        personByAddress = personService.findPersonByAddress(address);
+        List<Person> personByAddress = personService.findPersonByAddress(address);
 
         for (Person p : personByAddress) {
             FireListPerson fireListPerson = new FireListPerson();
-            MedicalRecord medicalRecord = new MedicalRecord();
 
             fireListPerson.setFirstName(p.getFirstName());
             fireListPerson.setLastName(p.getLastName());
             fireListPerson.setPhone(p.getPhone());
-            medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
+            MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
             if (medicalRecord != null) {
                 fireListPerson.setAllergies(medicalRecord.getAllergies());
                 fireListPerson.setMedications(medicalRecord.getMedications());
@@ -157,12 +153,11 @@ public class FireStationServiceImpl implements FireStationService {
 
             List<FloodPerson> listFloodPerson = new ArrayList<>();
             for (Person p : listPersons) {
-                FloodPerson floodListPersons = new FloodPerson();
-                MedicalRecord medicalRecord = new MedicalRecord();
+                FloodPerson floodListPersons = new FloodPerson();               
                 floodListPersons.setFirstName(p.getFirstName());
                 floodListPersons.setLastName(p.getLastName());
                 floodListPersons.setPhone(p.getPhone());
-                medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
+                MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
                 if (medicalRecord != null) {
                     floodListPersons.setAllergies(medicalRecord.getAllergies());
                     floodListPersons.setMedications(medicalRecord.getMedications());

@@ -1,6 +1,5 @@
 package com.safetynet.alerts.controller;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -18,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class CommunityEmailControllerTest {
+class CommunityEmailControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -28,7 +27,8 @@ class CommunityEmailControllerTest {
         // GIVEN
 
         // WHEN //THEN
-        String body = "[{\"email\":\"emailtest1@email.com\"},{\"email\":\"emailtest1@email.com\"}]";
+        String body = "[{\"email\":\"emailtest1@email.com\"},{\"email\":\"emailtest1@email.com\"},"
+        +"{\"email\":\"emailtest1@email.com\"}]";
         this.mockMvc.perform(get("/communityEmail?city=Citytest1").accept(MediaType.APPLICATION_JSON))
         .andDo(print())
         .andExpect(content().json(body))

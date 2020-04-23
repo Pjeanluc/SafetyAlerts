@@ -63,8 +63,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<ChildInfo> getListChild(String address) throws Exception {
-        List<Person> allPersonInAdress = new ArrayList<>();
-        allPersonInAdress = this.findPersonByAddress(address);
+        List<Person> allPersonInAdress = this.findPersonByAddress(address);
 
         List<ChildInfo> listChildInfo = new ArrayList<>();
         for (Person p : allPersonInAdress) {
@@ -89,11 +88,10 @@ public class PersonServiceImpl implements PersonService {
     public List<PhoneInfo> getListPhoneInfo(String station) {
         List<PhoneInfo> listPhoneInfo = new ArrayList<>();
         List<Person> listPersonFireStation = new ArrayList<>();
-        List<Person> listPersonAddress = new ArrayList<>();
         List<String> listAddress = fireStationService.addressCoveredByStation(station);
 
         for (String a : listAddress) {
-            listPersonAddress = findPersonByAddress(a);
+            List<Person> listPersonAddress = findPersonByAddress(a);
             listPersonFireStation.addAll(listPersonAddress);
         }
 
@@ -111,8 +109,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public List<InfoPerson> getPersonInfo(String firstName, String lastName) {
         List<InfoPerson> result = new ArrayList<>();
-        List<Person> persons = new ArrayList<>();
-        persons = findPerson(firstName, lastName);
+        List<Person> persons = findPerson(firstName, lastName);
 
         for (Person p : persons) {
             InfoPerson infoPerson = new InfoPerson();
@@ -132,17 +129,17 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<CommunityEmail> getCommunityEmail(String city) {
-       List<CommunityEmail> result = new ArrayList<>();
-       List<Person> persons = findAll();
-       
-       for(Person p: persons) {
-           if (p.getCity().contentEquals(city)) {
-               CommunityEmail communityEmail = new CommunityEmail();
-               communityEmail.setEmail(p.getEmail());
-               result.add(communityEmail);
-           }           
-       }
-       
+        List<CommunityEmail> result = new ArrayList<>();
+        List<Person> persons = findAll();
+
+        for (Person p : persons) {
+            if (p.getCity().contentEquals(city)) {
+                CommunityEmail communityEmail = new CommunityEmail();
+                communityEmail.setEmail(p.getEmail());
+                result.add(communityEmail);
+            }
+        }
+
         return result;
     }
 

@@ -17,8 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class InfoPersonControllerTest {
-    
+class PersonInfoControllerTestIT {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -26,20 +26,25 @@ class InfoPersonControllerTest {
     void getinfoPersonWithFirstNameAndLastNameTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        String body ="[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\",\"address\":null,\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"]}]";
-        this.mockMvc.perform(get("/personInfo?firstName=Firstnametest1&lastName=Lastnametest1").accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
-                .andExpect(content().json(body)).andExpect(status().isOk());
+        String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\","
+                + "\"address\":null,\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],"
+                + "\"allergies\":[\"allergi1\"]}]";
+        this.mockMvc
+                .perform(get("/personInfo?firstName=Firstnametest1&lastName=Lastnametest1")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print()).andExpect(content().json(body)).andExpect(status().isOk());
     }
 
     @Test
     void getinfoPersonWithJustLastNameTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\",\"address\":null,\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"]},{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\",\"address\":null,\"age\":0,\"email\":\"emailtest1@email.com\",\"medications\":null,\"allergies\":null}]";
-        
+        String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\","
+                + "\"address\":null,\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],"
+                + "\"allergies\":[\"allergi1\"]},{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\","
+                + "\"address\":null,\"age\":0,\"email\":\"emailtest1@email.com\",\"medications\":null,\"allergies\":null}]";
+
         this.mockMvc.perform(get("/personInfo?firstName=&lastName=Lastnametest1").accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
                 .andExpect(content().json(body)).andExpect(status().isOk());
     }
 
@@ -47,8 +52,10 @@ class InfoPersonControllerTest {
     void getinfoPersonDoesNotExistTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-      
-        this.mockMvc.perform(get("/infoPerson?firstname=firstnamenotexit&lastName=lastnamenotexist").accept(MediaType.APPLICATION_JSON))
+
+        this.mockMvc
+                .perform(get("/infoPerson?firstname=firstnamenotexit&lastName=lastnamenotexist")
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().string("")).andExpect(status().isNotFound());
     }
 

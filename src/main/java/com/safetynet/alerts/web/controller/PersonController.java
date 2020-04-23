@@ -45,9 +45,11 @@ public class PersonController {
 
         Person personModified = personService.update(person);
 
-        if (personModified == null)
+        if (personModified == null) {
+            logger.info("modifyPerson : Not Found");
             throw new PersonNotFound(person.toString());
-
+        }
+        logger.info("modifyPerson : sucess");
         return personModified;
     }
 

@@ -15,12 +15,13 @@ import com.safetynet.alerts.services.PersonService;
 @RestController
 public class PersonInfoController {
     private static final Logger logger = LogManager.getLogger("FireController");
-    
+
     @Autowired
-     PersonService personService;
+    PersonService personService;
 
     @GetMapping(value = "/personInfo")
-    public List<InfoPerson> getPersonInfo(@RequestParam("firstName") String firstName, @RequestParam("lastName") String lastName) throws Exception {
+    public List<InfoPerson> getPersonInfo(@RequestParam("firstName") String firstName,
+                                          @RequestParam("lastName") String lastName) throws Exception {
 
         if (lastName.isEmpty()) {
             logger.info("getPersonInfo : lastName is empty");

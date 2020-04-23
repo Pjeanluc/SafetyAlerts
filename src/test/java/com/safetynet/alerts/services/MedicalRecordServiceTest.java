@@ -20,7 +20,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.safetynet.alerts.DAO.MedicalRecordsDAO;
 import com.safetynet.alerts.model.MedicalRecord;
-import com.safetynet.alerts.model.Person;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -35,7 +34,6 @@ class MedicalRecordServiceTest {
     
     @MockBean
     ServiceUtil serviceUtil;
-
     
     @Autowired
     MedicalRecordService medicalRecordService;

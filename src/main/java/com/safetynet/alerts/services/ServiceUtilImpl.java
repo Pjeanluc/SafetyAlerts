@@ -33,8 +33,7 @@ public class ServiceUtilImpl implements ServiceUtil {
     @Override
     public Boolean isChild(Person person) throws ParseException {
         int agePerson = 0;
-        MedicalRecord medicalRecord = new MedicalRecord();
-        medicalRecord = medicalRecordService.findMedicalRecord(person.getFirstName(), person.getLastName());
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(person.getFirstName(), person.getLastName());
 
         if (medicalRecord != null) {
             agePerson = calculateAge(medicalRecord.getBirthdate());

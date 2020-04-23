@@ -26,7 +26,7 @@ import com.safetynet.alerts.services.FireStationService;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class FireStationControllerTest {
+public class FireStationControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -124,7 +124,7 @@ public class FireStationControllerTest {
                 .thenReturn(new FireStationCoverage());
 
         // WHEN //THEN
-        this.mockMvc.perform(get("/firestation?station=\"3\"").accept(MediaType.APPLICATION_JSON))
+        this.mockMvc.perform(get("/firestation?stationNumber=1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
 }

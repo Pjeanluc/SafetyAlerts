@@ -30,7 +30,7 @@ import com.safetynet.alerts.services.PersonService;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class PersonControllerTest {
+class PersonControllerTestIT {
 
     @Autowired
     private MockMvc mockMvc;
