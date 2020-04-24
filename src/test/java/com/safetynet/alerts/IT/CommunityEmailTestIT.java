@@ -1,6 +1,7 @@
-package com.safetynet.alerts.controller;
+package com.safetynet.alerts.IT;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.Test;
@@ -8,38 +9,30 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-class GetObjectsControllerTestIT {
+class CommunityEmailTestIT {
+
     @Autowired
     private MockMvc mockMvc;
     
     @Test
-    public void GiveAllPersonTest() throws Exception {
-
-        // WHEN //THEN 
-
-        this.mockMvc.perform(get("/persons")).andExpect(status().isOk());
-    }
-
-    @Test
-    public void GiveAllMedicalRecordTest() throws Exception {
+    void CommunityEmaiforAnExistingCityTest() throws Exception {
+        // GIVEN
 
         // WHEN //THEN
-
-        this.mockMvc.perform(get("/medicalrecords")).andExpect(status().isOk());
+        String body = "[{\"email\":\"emailtest1@email.com\"},{\"email\":\"emailtest1@email.com\"},"
+        +"{\"email\":\"emailtest1@email.com\"}]";
+        this.mockMvc.perform(get("/communityEmail?city=Citytest1").accept(MediaType.APPLICATION_JSON))
+        .andDo(print())
+        .andExpect(content().json(body))
+        .andExpect(status().isOk());
     }
-    @Test
-    public void GiveAllFireStationTest() throws Exception {
-
-        // WHEN //THEN
-
-        this.mockMvc.perform(get("/firestations")).andExpect(status().isOk());
-    }
-    
 
 }

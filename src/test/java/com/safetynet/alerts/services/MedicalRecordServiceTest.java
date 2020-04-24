@@ -20,6 +20,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.safetynet.alerts.DAO.MedicalRecordsDAO;
 import com.safetynet.alerts.model.MedicalRecord;
+import com.safetynet.alerts.services.MedicalRecordService;
+import com.safetynet.alerts.services.PersonService;
+import com.safetynet.alerts.services.ServiceUtil;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)

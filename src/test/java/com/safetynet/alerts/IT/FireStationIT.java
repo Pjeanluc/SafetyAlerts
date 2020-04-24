@@ -1,4 +1,4 @@
-package com.safetynet.alerts.controller;
+package com.safetynet.alerts.IT;
 
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -26,7 +26,7 @@ import com.safetynet.alerts.services.FireStationService;
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
-public class FireStationControllerTestIT {
+public class FireStationIT {
 
     @Autowired
     private MockMvc mockMvc;
