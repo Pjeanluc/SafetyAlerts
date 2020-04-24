@@ -28,8 +28,6 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.services.MedicalRecordService;
 import static com.safetynet.alerts.controller.PersonControllerTest.asJsonString;
 
-
-
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)
 @AutoConfigureMockMvc
@@ -123,7 +121,8 @@ class MedicalRecordControllerTest {
         // GIVEN :
         Date birthDay = dateFormat.parse("01/01/2001");
 
-        Mockito.when(medicalRecordServiceMock.findMedicalRecord(any(String.class), any(String.class))).thenReturn(medicalRecordMock);
+        Mockito.when(medicalRecordServiceMock.findMedicalRecord(any(String.class), any(String.class)))
+                .thenReturn(medicalRecordMock);
 
         // WHEN //THEN return the medical record
         mockMvc.perform(get("/medicalrecord?firstname=" + firstNameConst + "&lastname=" + lastNameConst)
