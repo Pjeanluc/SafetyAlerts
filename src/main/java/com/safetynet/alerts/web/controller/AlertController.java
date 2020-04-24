@@ -21,7 +21,7 @@ public class AlertController {
     private PersonService personService;
 
     @GetMapping(value = "/childAlert")
-    public List<ChildInfo> getFireStationCoverage(@RequestParam("address") String address) throws Exception {
+    public List<ChildInfo> getChildAlert(@RequestParam("address") String address) throws Exception {
         logger.info("childAlert : success");
         
         return personService.getListChild(address);
