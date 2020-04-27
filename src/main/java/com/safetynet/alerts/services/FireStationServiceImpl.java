@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.DAO.FireStationDAO;
 import com.safetynet.alerts.model.FireStation;
@@ -17,7 +17,7 @@ import com.safetynet.alerts.model.url.FireStationPerson;
 import com.safetynet.alerts.model.url.FloodPerson;
 import com.safetynet.alerts.model.url.FloodHome;;
 
-@Repository
+@Service
 public class FireStationServiceImpl implements FireStationService {
 
     @Autowired

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.DAO.PersonDAO;
 import com.safetynet.alerts.model.MedicalRecord;
@@ -14,7 +14,7 @@ import com.safetynet.alerts.model.url.CommunityEmail;
 import com.safetynet.alerts.model.url.InfoPerson;
 import com.safetynet.alerts.model.url.PhoneInfo;
 
-@Repository
+@Service
 public class PersonServiceImpl implements PersonService {
     @Autowired
     private PersonDAO personDAO;

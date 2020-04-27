@@ -3,12 +3,12 @@ package com.safetynet.alerts.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import com.safetynet.alerts.DAO.MedicalRecordsDAO;
 import com.safetynet.alerts.model.MedicalRecord;
 
-@Repository
+@Service
 public class MedicalRecordServiceImpl implements MedicalRecordService {
     @Autowired
     private MedicalRecordsDAO MedicalRecordsDAO;
