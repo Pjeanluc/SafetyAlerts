@@ -86,7 +86,7 @@ public class FireStationServiceImpl implements FireStationService {
 
         for (Person p : personByStation) {
             FireStationPerson fireStationPerson = new FireStationPerson();
-            fireStationPerson.setFistName(p.getFirstName());
+            fireStationPerson.setFirstName(p.getFirstName());
             fireStationPerson.setLastName(p.getLastName());
             fireStationPerson.setAddress(p.getAddress());
             fireStationPerson.setPhone(p.getPhone());

@@ -2,18 +2,18 @@ package com.safetynet.alerts.model.url;
 
 public class FireStationPerson {
 
-    String fistName;
+    String firstName;
     String lastName;
     String address;
     String phone;
     
-    public String getFistName() {
-        return fistName;
+    public String getFirstName() {
+        return firstName;
     }
-    public void setFistName(String fistName) {
-        this.fistName = fistName;
+    public void setFirstName(String fistName) {
+        this.firstName = fistName;
     }
-    public String getLasName() {
+    public String getLastName() {
         return lastName;
     }
     public void setLastName(String lasName) {
