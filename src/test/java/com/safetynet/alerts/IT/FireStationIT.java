@@ -116,7 +116,7 @@ public class FireStationIT {
     }
 
     @Test
-    public void getCoverageFireStation() throws Exception {
+    public void getCoverageFireStationTest() throws Exception {
 
         // GIVEN
 

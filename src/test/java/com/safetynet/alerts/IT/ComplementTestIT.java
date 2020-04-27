@@ -26,14 +26,14 @@ class ComplementTestIT {
     FireStationService fireStationService;
 
     @Test
-    public void getCoverageFireStation() throws Exception {
+    public void getCoverageFireStationTest() throws Exception {
 
         // GIVEN
 
         // WHEN //THEN
-        String body = "{\"fireStationPersons\":[{\"fistName\":\"Firstnametest1\",\"address\":\"adresstest1\","
-                + "\"phone\":\"phonetest1\",\"lasName\":\"Lastnametest1\"},{\"fistName\":\"Firstnametest11\","
-                + "\"address\":\"adresstest1\",\"phone\":\"phonetest1\",\"lasName\":\"Lastnametest1\"}],"
+        String body = "{\"fireStationPersons\":[{\"firstName\":\"Firstnametest1\",\"address\":\"adresstest1\","
+                + "\"phone\":\"phonetest1\",\"lastName\":\"Lastnametest1\"},{\"firstName\":\"Firstnametest11\","
+                + "\"address\":\"adresstest1\",\"phone\":\"phonetest1\",\"lastName\":\"Lastnametest1\"}],"
                 + "\"adultCount\":1,\"childCount\":1}";
         this.mockMvc.perform(get("/firestation?stationNumber=1").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(content().json(body));
