@@ -4,14 +4,14 @@ import java.util.List;
 
 public class FireStationCoverage {
     
-    List<FireStationPerson> fireStationPersons;
+    List<InfoPersonFull> fireStationPersons;
     int adultCount;
     int childCount;
     
-    public List<FireStationPerson> getFireStationPersons() {
+    public List<InfoPersonFull> getFireStationPersons() {
         return fireStationPersons;
     }
-    public void setFireStationPersons(List<FireStationPerson> fireStationPersons) {
+    public void setFireStationPersons(List<InfoPersonFull> fireStationPersons) {
         this.fireStationPersons = fireStationPersons;
     }
     public int getAdultCount() {

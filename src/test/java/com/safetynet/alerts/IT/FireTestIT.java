@@ -25,12 +25,11 @@ class FireTestIT {
     void getFireListPersonWithExistingAddressTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        String body ="[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\","
-                    +"\"phone\":\"phonetest1\",\"age\":19,\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"],"
-                    +"\"station\":\"1\"},{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\","
-                    +"\"phone\":\"phonetest1\",\"age\":0,\"medications\":null,\"allergies\":null,\"station\":\"1\"}]";
-        this.mockMvc.perform(get("/fire?address=adresstest1").accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
+        String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\",\"age\":19,"
+                + "\"phone\":\"phonetest1\",\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"]},"
+                + "{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\",\"age\":0,"
+                + "\"phone\":\"phonetest1\",\"medications\":null,\"allergies\":null}]";
+        this.mockMvc.perform(get("/fire?address=adresstest1").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(content().string(body)).andExpect(status().isOk());
     }
 
@@ -38,8 +37,7 @@ class FireTestIT {
     void getFireListPersonWithNotExistingAddressTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        this.mockMvc.perform(get("/fire?address=adresstestnotexist").accept(MediaType.APPLICATION_JSON))
-        .andDo(print())
+        this.mockMvc.perform(get("/fire?address=adresstestnotexist").accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(content().string("[]")).andExpect(status().isOk());
     }
 

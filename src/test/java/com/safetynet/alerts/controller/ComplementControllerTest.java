@@ -20,9 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.safetynet.alerts.model.url.CommunityEmail;
-import com.safetynet.alerts.model.url.FireListPerson;
 import com.safetynet.alerts.model.url.FloodHome;
-import com.safetynet.alerts.model.url.InfoPerson;
+import com.safetynet.alerts.model.url.InfoPersonFull;
 import com.safetynet.alerts.services.FireStationService;
 import com.safetynet.alerts.services.MedicalRecordService;
 import com.safetynet.alerts.services.PersonService;
@@ -68,14 +67,14 @@ class ComplementControllerTest {
     public void FireController_Test() throws Exception {
 
         // GIVEN :
-        FireListPerson fireListPersonMock = new FireListPerson();
+        InfoPersonFull fireListPersonMock = new InfoPersonFull();
         fireListPersonMock.setAge(10);
         fireListPersonMock.setFirstName("firstnametest");
         fireListPersonMock.setLastName("lastnametest");
         fireListPersonMock.setPhone("phonetest");
         fireListPersonMock.setStation("stationtest");
 
-        List<FireListPerson> listFireListPerson = new ArrayList<>();
+        List<InfoPersonFull> listFireListPerson = new ArrayList<>();
         listFireListPerson.add(fireListPersonMock);
         Mockito.when(fireStationServiceMock.getFireListPerson(any(String.class))).thenReturn(listFireListPerson);
 
@@ -113,14 +112,14 @@ class ComplementControllerTest {
     public void PersonInfoController_Test() throws Exception {
 
         // GIVEN :
-        InfoPerson infoPersonMock = new InfoPerson();
+        InfoPersonFull infoPersonMock = new InfoPersonFull();
         infoPersonMock.setFirstName("firstnametest");
         infoPersonMock.setLastName("lastnametest");
         infoPersonMock.setEmail("emailtest@email.us");
         infoPersonMock.setAge(10);
         infoPersonMock.setAddress("addresstest");
 
-        List<InfoPerson> listInfoPersonMock = new ArrayList<>();
+        List<InfoPersonFull> listInfoPersonMock = new ArrayList<>();
         listInfoPersonMock.add(infoPersonMock);
 
         Mockito.when(personServiceMock.getPersonInfo(any(String.class), any(String.class)))

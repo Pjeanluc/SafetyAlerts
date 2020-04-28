@@ -11,10 +11,8 @@ import com.safetynet.alerts.DAO.FireStationDAO;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.url.FireListPerson;
 import com.safetynet.alerts.model.url.FireStationCoverage;
-import com.safetynet.alerts.model.url.FireStationPerson;
-import com.safetynet.alerts.model.url.FloodPerson;
+import com.safetynet.alerts.model.url.InfoPersonFull;
 import com.safetynet.alerts.model.url.FloodHome;;
 
 @Service
@@ -69,7 +67,7 @@ public class FireStationServiceImpl implements FireStationService {
     public FireStationCoverage fireStationPersonsCovered(String station) throws ParseException {
 
         FireStationCoverage fireStationCoverage = new FireStationCoverage();
-        List<FireStationPerson> fireStationPersons = new ArrayList<>();
+        List<InfoPersonFull> fireStationPersons = new ArrayList<>();
 
         List<Person> personByStation = new ArrayList<>();
 
@@ -85,17 +83,14 @@ public class FireStationServiceImpl implements FireStationService {
         }
 
         for (Person p : personByStation) {
-            FireStationPerson fireStationPerson = new FireStationPerson();
-            fireStationPerson.setFirstName(p.getFirstName());
-            fireStationPerson.setLastName(p.getLastName());
-            fireStationPerson.setAddress(p.getAddress());
-            fireStationPerson.setPhone(p.getPhone());
+            InfoPersonFull infoPersonFull = personService.getFullInformationPerson(p);
+
             if (serviceUtil.isChild(p)) {
                 countChild++;
             } else
                 countAdult++;
 
-            fireStationPersons.add(fireStationPerson);
+            fireStationPersons.add(infoPersonFull);
         }
 
         fireStationCoverage.setFireStationPersons(fireStationPersons);
@@ -107,26 +102,14 @@ public class FireStationServiceImpl implements FireStationService {
     }
 
     @Override
-    public List<FireListPerson> getFireListPerson(String address) {
-        List<FireListPerson> fireStationListPerson = new ArrayList<>();
+    public List<InfoPersonFull> getFireListPerson(String address) {
+        List<InfoPersonFull> fireStationListPerson = new ArrayList<>();
 
         List<Person> personByAddress = personService.findPersonByAddress(address);
 
         for (Person p : personByAddress) {
-            FireListPerson fireListPerson = new FireListPerson();
-
-            fireListPerson.setFirstName(p.getFirstName());
-            fireListPerson.setLastName(p.getLastName());
-            fireListPerson.setPhone(p.getPhone());
-            MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
-            if (medicalRecord != null) {
-                fireListPerson.setAllergies(medicalRecord.getAllergies());
-                fireListPerson.setMedications(medicalRecord.getMedications());
-                fireListPerson.setAge(serviceUtil.calculateAge(medicalRecord.getBirthdate()));
-            }
-            fireListPerson.setStation(stationNumber(address));
-            fireStationListPerson.add(fireListPerson);
-
+            InfoPersonFull infoPersonFull = personService.getFullInformationPerson(p);
+            fireStationListPerson.add(infoPersonFull);
         }
 
         return fireStationListPerson;
@@ -151,19 +134,12 @@ public class FireStationServiceImpl implements FireStationService {
             FloodHome floodHome = new FloodHome();
             floodHome.setAddress(a);
 
-            List<FloodPerson> listFloodPerson = new ArrayList<>();
+            List<InfoPersonFull> listFloodPerson = new ArrayList<>();
             for (Person p : listPersons) {
-                FloodPerson floodListPersons = new FloodPerson();               
-                floodListPersons.setFirstName(p.getFirstName());
-                floodListPersons.setLastName(p.getLastName());
-                floodListPersons.setPhone(p.getPhone());
-                MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
-                if (medicalRecord != null) {
-                    floodListPersons.setAllergies(medicalRecord.getAllergies());
-                    floodListPersons.setMedications(medicalRecord.getMedications());
-                    floodListPersons.setAge(serviceUtil.calculateAge(medicalRecord.getBirthdate()));
-                }
-                listFloodPerson.add(floodListPersons);
+
+                InfoPersonFull infoPersonFull = personService.getFullInformationPerson(p);
+
+                listFloodPerson.add(infoPersonFull);
             }
             floodHome.setFloodListPersons(listFloodPerson);
             result.add(floodHome);

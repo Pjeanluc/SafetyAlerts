@@ -27,8 +27,9 @@ class PersonInfoTestIT {
         // GIVEN
         // WHEN //THEN
         String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\","
-                + "\"address\":null,\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],"
+                + "\"address\":\"adresstest1\",\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],"
                 + "\"allergies\":[\"allergi1\"]}]";
+
         this.mockMvc
                 .perform(get("/personInfo?firstName=Firstnametest1&lastName=Lastnametest1")
                         .accept(MediaType.APPLICATION_JSON))
@@ -39,10 +40,10 @@ class PersonInfoTestIT {
     void getinfoPersonWithJustLastNameTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\","
-                + "\"address\":null,\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],"
-                + "\"allergies\":[\"allergi1\"]},{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\","
-                + "\"address\":null,\"age\":0,\"email\":\"emailtest1@email.com\",\"medications\":null,\"allergies\":null}]";
+        String body = "[{\"firstName\":\"Firstnametest1\",\"lastName\":\"Lastnametest1\",\"address\":\"adresstest1\","
+                + "\"age\":19,\"email\":\"emailtest1@email.com\",\"medications\":[\"med1\"],\"allergies\":[\"allergi1\"]},"
+                + "{\"firstName\":\"Firstnametest11\",\"lastName\":\"Lastnametest1\",\"address\":\"adresstest1\""
+                + ",\"age\":0,\"email\":\"emailtest1@email.com\",\"medications\":null,\"allergies\":null}]";
 
         this.mockMvc.perform(get("/personInfo?firstName=&lastName=Lastnametest1").accept(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(body)).andExpect(status().isOk());

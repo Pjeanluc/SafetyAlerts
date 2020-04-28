@@ -15,7 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.json.MappingJacksonValue;
 
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
 import com.safetynet.alerts.model.FireStation;
 import com.safetynet.alerts.model.url.FireStationCoverage;
 import com.safetynet.alerts.services.FireStationService;
@@ -64,9 +68,19 @@ public class FireStationController {
     }
     
    @GetMapping    
-   public FireStationCoverage getFireStationCoverage(@RequestParam("stationNumber") String station) throws Exception {
+   public MappingJacksonValue getFireStationCoverage(@RequestParam("stationNumber") String station) throws Exception {
        logger.info("getFireStationCoverage sucess");
-       return fireStationService.fireStationPersonsCovered(station);
+       
+       
+       FireStationCoverage dtoObject=fireStationService.fireStationPersonsCovered(station);
+       
+       MappingJacksonValue resultat = new MappingJacksonValue(dtoObject);
+       FilterProvider filter = new SimpleFilterProvider().addFilter("filtreInformationPersonFull",
+               SimpleBeanPropertyFilter.serializeAllExcept("email","age","medications","allergies","station"));
+       resultat.setFilters(filter);
+       return resultat;
+       
+       
         
     }
 }

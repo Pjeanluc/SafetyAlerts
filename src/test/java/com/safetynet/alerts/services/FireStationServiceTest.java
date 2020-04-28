@@ -21,8 +21,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.safetynet.alerts.DAO.FireStationDAO;
 import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
-import com.safetynet.alerts.model.url.FireListPerson;
 import com.safetynet.alerts.model.url.FloodHome;
+import com.safetynet.alerts.model.url.InfoPersonFull;
 import com.safetynet.alerts.services.FireStationService;
 import com.safetynet.alerts.services.MedicalRecordService;
 import com.safetynet.alerts.services.PersonService;
@@ -106,7 +106,7 @@ class FireStationServiceTest {
         Mockito.when(serviceUtilMock.calculateAge(any(Date.class))).thenReturn(10);
 
         // WHEN
-        List<FireListPerson> listFireListPersonTest = fireStationTest.getFireListPerson("addresstest");
+        List<InfoPersonFull> listFireListPersonTest = fireStationTest.getFireListPerson("addresstest");
 
         // THEN
         assertThat(listFireListPersonTest.size()).isEqualTo(2);

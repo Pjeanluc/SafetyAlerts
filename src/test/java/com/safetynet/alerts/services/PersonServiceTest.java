@@ -24,7 +24,7 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.url.ChildInfo;
 import com.safetynet.alerts.model.url.CommunityEmail;
-import com.safetynet.alerts.model.url.InfoPerson;
+import com.safetynet.alerts.model.url.InfoPersonFull;
 import com.safetynet.alerts.model.url.PhoneInfo;
 import com.safetynet.alerts.services.FireStationService;
 import com.safetynet.alerts.services.MedicalRecordService;
@@ -129,7 +129,7 @@ class PersonServiceTest {
                 .thenReturn(medicalRecordTest);
 
         // WHEN
-        List<InfoPerson> listInfoPerson = personServiceTest.getPersonInfo("firstnametest", "lastnameTest");
+        List<InfoPersonFull> listInfoPerson = personServiceTest.getPersonInfo("firstnametest", "lastnameTest");
 
         // THEN
         assertThat(listInfoPerson.size()).isEqualTo(2);
@@ -158,5 +158,38 @@ class PersonServiceTest {
         // THEN
         assertThat(personServiceTest.getCommunityEmail("Citynotexist").isEmpty());
     }
+    
+    @Test
+    void getFullInformationPersonTest() throws Exception {
+        // GIVEN
+        
+        Person person = new Person("firstname", "lastname", "address", "City", "zip", "phone", "email1");      
+             
+        String stringDate = "01/01/1990";
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date birthDay = dateFormat.parse(stringDate);
+        List<String> medications = new ArrayList<String>();
+        medications.add("medication");
+        List<String> allergies = new ArrayList<String>();
+        allergies.add("allergie");
+        MedicalRecord medicalRecordTest = new MedicalRecord("firstname", "lastname", birthDay, medications,
+                allergies);
+        Mockito.when(medicalRecordServiceMock.findMedicalRecord(any(String.class), any(String.class)))
+                .thenReturn(medicalRecordTest);
+        
+        Mockito.when(fireStationServiceMock.stationNumber(any(String.class))).thenReturn("1");
+                
+        // WHEN
+        
+        InfoPersonFull infoPersonFull = personServiceTest.getFullInformationPerson(person);
+        // THEN
+        assertThat(infoPersonFull.getFirstName()).isEqualTo("firstname");
+        assertThat(infoPersonFull.getLastName()).isEqualTo("lastname");
+        assertThat(infoPersonFull.getAddress()).isEqualTo("address");
+        assertThat(infoPersonFull.getPhone()).isEqualTo("phone");
+        assertThat(infoPersonFull.getEmail()).isEqualTo("email1");
+        assertThat(infoPersonFull.getStation()).isEqualTo("1");
+    }
 
+   
 }

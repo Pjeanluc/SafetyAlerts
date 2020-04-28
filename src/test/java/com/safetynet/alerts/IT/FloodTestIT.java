@@ -26,8 +26,7 @@ class FloodTestIT {
     void getFloodHomeWithExistingStationTest() throws Exception {
         // GIVEN
         // WHEN //THEN
-        this.mockMvc.perform(get("/flood?stations=1").accept(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$..address").value("adresstest1")).andExpect(status().isOk());
+        this.mockMvc.perform(get("/flood?stations=1").accept(MediaType.APPLICATION_JSON)).andExpect(status().isOk());
     }
 
     @Test

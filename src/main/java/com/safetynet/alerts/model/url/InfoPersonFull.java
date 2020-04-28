@@ -2,14 +2,20 @@ package com.safetynet.alerts.model.url;
 
 import java.util.List;
 
-public class InfoPerson {
+import com.fasterxml.jackson.annotation.JsonFilter;
+
+@JsonFilter("filtreInformationPersonFull")
+public class InfoPersonFull {
+    
     private String firstName;
     private String lastName;
     private String address;
     private int age;
+    private String phone;
     private String email;
     private List<String> medications;
     private List<String> allergies;
+    private String station;
     public String getFirstName() {
         return firstName;
     }
@@ -34,6 +40,12 @@ public class InfoPerson {
     public void setAge(int age) {
         this.age = age;
     }
+    public String getPhone() {
+        return phone;
+    }
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     public String getEmail() {
         return email;
     }
@@ -52,5 +64,12 @@ public class InfoPerson {
     public void setAllergies(List<String> allergies) {
         this.allergies = allergies;
     }
+    public String getStation() {
+        return station;
+    }
+    public void setStation(String station) {
+        this.station = station;
+    }
+    
 
 }

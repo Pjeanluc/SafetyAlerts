@@ -11,7 +11,7 @@ import com.safetynet.alerts.model.MedicalRecord;
 import com.safetynet.alerts.model.Person;
 import com.safetynet.alerts.model.url.ChildInfo;
 import com.safetynet.alerts.model.url.CommunityEmail;
-import com.safetynet.alerts.model.url.InfoPerson;
+import com.safetynet.alerts.model.url.InfoPersonFull;
 import com.safetynet.alerts.model.url.PhoneInfo;
 
 @Service
@@ -107,21 +107,12 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<InfoPerson> getPersonInfo(String firstName, String lastName) {
-        List<InfoPerson> result = new ArrayList<>();
+    public List<InfoPersonFull> getPersonInfo(String firstName, String lastName) {
+        List<InfoPersonFull> result = new ArrayList<>();
         List<Person> persons = findPerson(firstName, lastName);
 
         for (Person p : persons) {
-            InfoPerson infoPerson = new InfoPerson();
-            infoPerson.setFirstName(p.getFirstName());
-            infoPerson.setLastName(p.getLastName());
-            infoPerson.setEmail(p.getEmail());
-            MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(p.getFirstName(), p.getLastName());
-            if (medicalRecord != null) {
-                infoPerson.setAge(serviceUtil.calculateAge(medicalRecord.getBirthdate()));
-                infoPerson.setAllergies(medicalRecord.getAllergies());
-                infoPerson.setMedications(medicalRecord.getMedications());
-            }
+            InfoPersonFull infoPerson = getFullInformationPerson(p);
             result.add(infoPerson);
         }
         return result;
@@ -138,6 +129,28 @@ public class PersonServiceImpl implements PersonService {
                 communityEmail.setEmail(p.getEmail());
                 result.add(communityEmail);
             }
+        }
+
+        return result;
+    }
+
+    @Override
+    public InfoPersonFull getFullInformationPerson(Person person) {
+
+        InfoPersonFull result = new InfoPersonFull();
+        result.setFirstName(person.getFirstName());
+        result.setLastName(person.getLastName());
+        result.setAddress(person.getAddress());
+        result.setPhone(person.getPhone());
+        result.setEmail(person.getEmail());
+        result.setStation(fireStationService.stationNumber(person.getAddress()));
+
+        MedicalRecord medicalRecord = medicalRecordService.findMedicalRecord(person.getFirstName(),
+                person.getLastName());
+        if (medicalRecord != null) {
+            result.setAge(serviceUtil.calculateAge(medicalRecord.getBirthdate()));
+            result.setAllergies(medicalRecord.getAllergies());
+            result.setMedications(medicalRecord.getMedications());
         }
 
         return result;

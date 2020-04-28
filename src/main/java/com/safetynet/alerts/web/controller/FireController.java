@@ -5,11 +5,15 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.converter.json.MappingJacksonValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.safetynet.alerts.model.url.FireListPerson;
+import com.fasterxml.jackson.databind.ser.FilterProvider;
+import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
+import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
+import com.safetynet.alerts.model.url.InfoPersonFull;
 import com.safetynet.alerts.services.FireStationService;
 
 @RestController
@@ -20,14 +24,21 @@ public class FireController {
     FireStationService fireStationService;
 
     @GetMapping(value = "/fire")
-    public List<FireListPerson> getFireListPerson(@RequestParam("address") String address) throws Exception {
+    public MappingJacksonValue getFireListPerson(@RequestParam("address") String address) throws Exception {
 
         if (address.isEmpty()) {
             logger.info("getFireListPerson : parameter is empty");
             throw new Exception("address value is empty");
         }
         logger.info("getFireListPerson sucess");
-        return fireStationService.getFireListPerson(address);
+        
+        List<InfoPersonFull> dtoObject=fireStationService.getFireListPerson(address);
+        
+        MappingJacksonValue resultat = new MappingJacksonValue(dtoObject);
+        FilterProvider filter = new SimpleFilterProvider().addFilter("filtreInformationPersonFull",
+                SimpleBeanPropertyFilter.serializeAllExcept("email","station","address"));
+        resultat.setFilters(filter);
+        return resultat;       
 
     }
 
