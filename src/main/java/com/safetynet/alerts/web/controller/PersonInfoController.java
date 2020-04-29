@@ -28,7 +28,7 @@ public class PersonInfoController {
             @RequestParam("lastName") String lastName) throws Exception {
 
         if (lastName.isEmpty()) {
-            logger.info("getPersonInfo : lastName is empty");
+            logger.error("getPersonInfo : lastName is empty");
             throw new Exception("lastName must be not empty");
         }
         logger.info("getPersonInfo sucess");

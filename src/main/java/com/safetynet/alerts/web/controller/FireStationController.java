@@ -50,8 +50,10 @@ public class FireStationController {
         if (fireStationModified != null) {
             logger.info("Modified firestation : " + fireStationModified.toString());
             return fireStationModified;
-        } else
+        } else {
+            logger.error("Modified firestation : KO");        
             throw new FireStationNotFound(fireStation.toString());
+        }
     }
 
     @DeleteMapping
@@ -62,9 +64,10 @@ public class FireStationController {
         if (fireStationDeleted.size() != 0) {
             logger.info("Deleted firestation : " + fireStationDeleted.toString());
             return fireStationDeleted;
-        } else
+        } else{
+            logger.error("removeFireStation : KO");
             throw new FireStationNotFound(fireStation.toString());
-
+        }
     }
     
    @GetMapping    

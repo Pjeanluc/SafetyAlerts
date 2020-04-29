@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
 import com.fasterxml.jackson.databind.ser.impl.SimpleFilterProvider;
-import com.safetynet.alerts.model.url.FireStationCoverage;
 import com.safetynet.alerts.model.url.FloodHome;
 import com.safetynet.alerts.services.FireStationService;
 
@@ -28,7 +27,7 @@ public class FloodController {
     public MappingJacksonValue getFloodListHome(@RequestParam("stations") List<String> stations) throws Exception {
 
         if (stations.isEmpty()) {
-            logger.info("getFloodListHome : parameter is empty");
+            logger.error("getFloodListHome : parameter is empty");
             throw new Exception("list of stations is empty");
         }
         logger.info("getFloodListHome sucess");

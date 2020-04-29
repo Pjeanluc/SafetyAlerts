@@ -27,7 +27,7 @@ public class FireController {
     public MappingJacksonValue getFireListPerson(@RequestParam("address") String address) throws Exception {
 
         if (address.isEmpty()) {
-            logger.info("getFireListPerson : parameter is empty");
+            logger.error("getFireListPerson : parameter is empty");
             throw new Exception("address value is empty");
         }
         logger.info("getFireListPerson sucess");

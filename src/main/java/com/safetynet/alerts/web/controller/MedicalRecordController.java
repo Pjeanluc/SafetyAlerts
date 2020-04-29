@@ -27,11 +27,12 @@ public class MedicalRecordController {
 
     @PostMapping
     public MedicalRecord addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-        
-        MedicalRecord medicalRecordAdded = medicalRecordService.save(medicalRecord);
-        if (medicalRecordAdded == null)
-            throw new MedicalRecordPersonNotFound(medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
 
+        MedicalRecord medicalRecordAdded = medicalRecordService.save(medicalRecord);
+        if (medicalRecordAdded == null) {
+            logger.error("addMedicalRecord KO");
+            throw new MedicalRecordPersonNotFound(medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
+        }
         logger.info("created medicalrecord : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
         return medicalRecordAdded;
 
@@ -42,9 +43,10 @@ public class MedicalRecordController {
 
         MedicalRecord medicalRecordModified = medicalRecordService.update(medicalRecord);
 
-        if (medicalRecordModified == null)
+        if (medicalRecordModified == null) {
+            logger.error("modifyMedicalRecord KO");
             throw new MedicalRecordNotFound(medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
-
+        }
         logger.info("modified medicalrecord : " + medicalRecord.getFirstName() + " " + medicalRecord.getLastName());
         return medicalRecordModified;
 
@@ -59,9 +61,10 @@ public class MedicalRecordController {
         if (medicalRecordService.delete(firstName, lastName)) {
             logger.info("Deleteted medicalrecord : " + medicalRecordName);
             return "Deleteted medicalrecord : " + medicalRecordName;
-        } else
+        } else {
+            logger.error("removeMedicalRecord KO");
             throw new MedicalRecordNotFound(medicalRecordName);
-
+        }
     }
 
     @GetMapping
@@ -71,9 +74,10 @@ public class MedicalRecordController {
         if (medicalRecordService.findMedicalRecord(firstName, lastName) != null) {
             logger.info("Get record");
             return medicalRecordService.findMedicalRecord(firstName, lastName);
-        } else
+        } else {
+            logger.error("getMedicalRecord KO");
             throw new MedicalRecordNotFound(firstName + " " + lastName);
-
+        }
     }
 
 }

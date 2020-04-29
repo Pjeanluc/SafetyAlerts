@@ -23,7 +23,7 @@ public class CommunityEmailController {
     public List<CommunityEmail> getCommunityEmail(@RequestParam("city") String city) throws Exception {
 
         if (city.isEmpty()) {
-            logger.info("getCommunityEmail : city is empty");
+            logger.error("getCommunityEmail : city is empty");
             throw new Exception("city value is empty");
         }
         logger.info("getCommunityEmail sucess");

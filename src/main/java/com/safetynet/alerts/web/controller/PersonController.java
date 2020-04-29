@@ -33,9 +33,10 @@ public class PersonController {
 
         Person personAdded = personService.save(person);
 
-        if (personAdded == null)
+        if (personAdded == null) {
+            logger.error("addPerson : KO");
             throw new PersonAddedException("Add " + person.toString() + " : ERROR");
-
+        }
         logger.info("Add " + personAdded.toString());
         return personAdded;
     }
@@ -46,7 +47,7 @@ public class PersonController {
         Person personModified = personService.update(person);
 
         if (personModified == null) {
-            logger.info("modifyPerson : Not Found");
+            logger.error("modifyPerson : Not Found");
             throw new PersonNotFound(person.toString());
         }
         logger.info("modifyPerson : sucess");
@@ -71,9 +72,10 @@ public class PersonController {
         logger.info("Get person");
         List<Person> persons = personService.findPerson(firstName, lastName);
 
-        if (persons.size() == 0)
+        if (persons.size() == 0) {
+            logger.error("getPerson : Not Found");
             throw new PersonNotFound(firstName + " " + lastName);
-
+        }
         return persons;
     }
 
